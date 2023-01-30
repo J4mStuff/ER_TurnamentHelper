@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta19" />
+      <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
+      <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Assets/arial.TTF">
+            <Link>arial.TTF</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Assets/template.png">
+            <Link>template.png</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+
+</Project>
