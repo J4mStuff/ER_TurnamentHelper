@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace ER_tournaments;
+namespace Tournaments;
 
 public class CsvProcessor
 {

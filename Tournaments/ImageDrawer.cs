@@ -3,7 +3,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Processing;
 
-namespace ER_tournaments;
+namespace Tournaments;
 
 public class ImageDrawer
 {

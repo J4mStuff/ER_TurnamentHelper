@@ -1,4 +1,4 @@
-namespace ER_tournaments;
+namespace Tournaments;
 
 public class TournamentLeaderBoardCreator
 {
