@@ -1,4 +1,4 @@
-namespace Tournaments;
+namespace Tournaments.Workflow;
 
 public class GameStats
 {
@@ -12,11 +12,13 @@ public class GameStats
         { 6, 4 }
     };
     
-    public GameStats(int placement, string name,  int kills)
+    public GameStats(int placement, string name,  string teamName, int kills, int teamKills)
     {
         Placements = placement;
         Kills = kills;
-        Name = name;
+        TeamKills = teamKills;
+        PlayerName = name;
+        TeamName = teamName;
     }
     
     public void CalculateScore()
@@ -30,5 +32,7 @@ public class GameStats
 
     public int Kills { get; }
 
-    public string Name { get; }
+    public string PlayerName { get; }
+    public string TeamName { get; }
+    public int TeamKills { get; }
 }
