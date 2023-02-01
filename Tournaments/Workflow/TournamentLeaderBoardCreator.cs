@@ -1,4 +1,4 @@
-using Tournaments.Configuration;
+using Tournaments.Models;
 
 namespace Tournaments.Workflow;
 
@@ -6,10 +6,12 @@ public class TournamentLeaderBoardCreator
 {
     private readonly CsvProcessor _csvProcessor;
     private readonly ImageDrawer _imageDrawer;
-    
-    public TournamentLeaderBoardCreator(ConfigurationModel model)
+    private readonly ConfigurationModel _configurationModel;
+
+    public TournamentLeaderBoardCreator(ConfigurationModel configurationModel)
     {
-        _csvProcessor = new CsvProcessor(model.GameCount, model.ColumnIds);
+        _configurationModel = configurationModel;
+        _csvProcessor = new CsvProcessor(configurationModel.GameFiles.Count, configurationModel.ColumnIds);
         _imageDrawer = new ImageDrawer();
     }
 
@@ -17,18 +19,12 @@ public class TournamentLeaderBoardCreator
     {
         foreach (var type in gameTypes.Where(t => t.Value))
         {
-            Enum.TryParse(type.Key, out GameType typeEnum);
-            GenerateGameData(typeEnum);
+            var results = _csvProcessor.ProcessCsv()[0]; //TODO: update this to work with multiple game files
+            var modeConfiguration = _configurationModel.ModeMaps.First(m => m.Name.ToString() == type.Key);
+            results.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring));
+            results = results.OrderByDescending(r => r.Score).ToList();
+
+            _imageDrawer.PopulateTemplate(results, modeConfiguration);
         }
-        Console.WriteLine("Done");
-    }
-
-    private void GenerateGameData(GameType type)
-    {
-        var results = _csvProcessor.ProcessCsv();
-        results.ForEach(r => r.CalculateScore());
-        results = results.OrderByDescending(r => r.Score).ToList();
-
-        _imageDrawer.PopulateTemplate(results);
     }
 }

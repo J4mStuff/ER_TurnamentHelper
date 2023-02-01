@@ -14,9 +14,9 @@ public class CsvProcessor
         _gameCount = gameCount;
     }
 
-    public List<GameStats> ProcessCsv()
+    public Dictionary<int, List<GameStats>> ProcessCsv()
     {
-        var scoreList = new List<GameStats>();
+        var gameScores = new Dictionary<int, List<GameStats>>();
 
         for (var i = 1; i <= _gameCount; i++)
         {
@@ -30,11 +30,11 @@ public class CsvProcessor
 
             if (lines != null)
             {
-                scoreList.AddRange(lines.Skip(1).Select(ProcessEntries));
+                gameScores[i].AddRange(lines.Skip(1).Select(ProcessEntries));
             }
         }
 
-        return scoreList;
+        return gameScores;
     }
 
     private static IEnumerable<string>? ReadFileLines(string fileName)

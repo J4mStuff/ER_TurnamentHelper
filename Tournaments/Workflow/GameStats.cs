@@ -2,16 +2,6 @@ namespace Tournaments.Workflow;
 
 public class GameStats
 {
-    private readonly Dictionary<int, int> _placementPoints = new()
-    {
-        { 1, 36 },
-        { 2, 26 },
-        { 3, 20 },
-        { 4, 16 },
-        { 5, 10 },
-        { 6, 4 }
-    };
-    
     public GameStats(int placement, string name,  string teamName, int kills, int teamKills)
     {
         Placements = placement;
@@ -21,9 +11,9 @@ public class GameStats
         TeamName = teamName;
     }
     
-    public void CalculateScore()
+    public void CalculateScore(Dictionary<string,int> placementScoring)
     {
-        Score = Kills * 4 + _placementPoints[Placements];
+        Score = Kills * 4 + placementScoring[Placements.ToString()];
     }
 
     public int Score { get; set; }

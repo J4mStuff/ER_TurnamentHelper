@@ -1,5 +1,6 @@
 using System.Data;
 using System.Text.Json;
+using Tournaments.Models;
 
 namespace Tournaments.Configuration;
 
@@ -14,6 +15,6 @@ public class ConfigManager
             : throw new NoNullAllowedException("Configuration file missing");
 
         return JsonSerializer.Deserialize<ConfigurationModel>(configString)
-               ?? new ConfigurationModel(new List<string>());
+               ?? new ConfigurationModel();
     }
 }

@@ -1,21 +1,70 @@
 {
-    "GameFiles": [
-        "1.csv",
-        "2.csv",
-        "3.csv",
-        "4.csv",
-        "5.csv"
-    ],
+    "GameFiles": ["1.csv"],
     "GameTypeSwitch": {
         "Solo": true,
-        "Squad": true,
-        "Tag": true
+        "Squad": false
     },
     "ColumnIds": {
-        "PlacementColumn" : 0,
+        "PlacementColumn": 0,
         "PlayerNameColumn": 3,
         "TeamKillsColumn": 7,
         "SoloKillsColumn": 8,
         "TeamNameColumn": 13
-    }
+    },
+    "ModeMaps": [
+        {
+            "Name": "Solo",
+            "FontSize": 35,
+            "FontName": "Arial",
+            "TemplateConfiguration": {
+                "YStartingPosition": 200,
+                "NewLineDistance": 50,
+                "NameFieldPosition": 430,
+                "PlacementFieldPosition": 1255,
+                "KillsFieldPosition": 1388,
+                "ScoreFieldPosition": 1505
+            },
+            "PlacementScoring": {
+                "1": 1,
+                "2": 1,
+                "3": 1,
+                "4": 1,
+                "5": 1,
+                "6": 1,
+                "7": 1,
+                "8": 1,
+                "9": 1,
+                "10": 1,
+                "11": 1,
+                "12": 1,
+                "13": 1,
+                "14": 1,
+                "15": 1,
+                "16": 1,
+                "17": 1,
+                "18": 1
+            }
+        },
+        {
+            "name": "Squad",
+            "FontSize": 35,
+            "FontName": "Arial",
+            "TemplateConfiguration": {
+                "YStartingPosition": 200,
+                "NewLineDistance": 50,
+                "NameFieldPosition": 430,
+                "PlacementFieldPosition": 1255,
+                "KillsFieldPosition": 1388,
+                "ScoreFieldPosition": 1505
+            },
+            "PlacementScoring": {
+                "1": 36,
+                "2": 26,
+                "3": 20,
+                "4": 16,
+                "5": 10,
+                "6": 4
+            }
+        }
+    ]
 }
