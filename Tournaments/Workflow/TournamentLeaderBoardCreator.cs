@@ -19,7 +19,7 @@ public class TournamentLeaderBoardCreator
     {
         foreach (var type in gameTypes.Where(t => t.Value))
         {
-            var allGames = _csvProcessor.ProcessCsv();
+            var allGames = _csvProcessor.ProcessCsv(_configurationModel.GameFiles);
             var lastGame = allGames.First().Value; //TODO make it work for all games
             var modeConfiguration = _configurationModel.ModeMaps.First(m => m.Name.ToString() == type.Key);
             lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));

@@ -14,23 +14,15 @@ public class CsvProcessor
         _gameCount = gameCount;
     }
 
-    public Dictionary<int, List<GameStats>> ProcessCsv()
+    public Dictionary<int, List<GameStats>> ProcessCsv(IEnumerable<string> fileNames)
     {
-        var gameScores = new Dictionary<int, List<GameStats>>();
-
-        for (var i = 1; i <= _gameCount; i++)
-        {
-            var executableLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            var csvLocation = Debugger.IsAttached
-                ? $"../../../Stubs/{i}.csv"
-                : Path.Combine(executableLocation!, $"{i}.csv");
-
-            var lines = ReadFileLines(csvLocation);
-            gameScores.Add(_gameCount, lines.Skip(1).Select(ProcessEntries).ToList());
-        }
-
-        return gameScores;
+        return (from fileName in fileNames
+            let executableLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+            select Debugger.IsAttached
+                ? $"../../../Stubs/{fileName}"
+                : Path.Combine(executableLocation!, fileName)
+            into csvLocation
+            select ReadFileLines(csvLocation)).ToDictionary(lines => _gameCount, lines => lines.Skip(1).Select(ProcessEntries).ToList());
     }
 
     private static IEnumerable<string> ReadFileLines(string fileName)

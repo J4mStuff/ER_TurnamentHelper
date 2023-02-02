@@ -1,6 +1,6 @@
 {
     "GameFiles": [
-        "1.csv"
+        "tag1.csv"
     ],
     "GameTypeSwitch": {
         "Solo": true,
@@ -16,7 +16,7 @@
     "ModeMaps": [
         {
             "Name": "Solo",
-            "FontName": "Arial",
+            "FontName": "default_uwu",
             "FontColour":
             {
                 "R": 255,
@@ -24,7 +24,7 @@
                 "B": 255
             },
             "TemplateConfiguration": {
-                "TemplateFileName": "template.png",
+                "TemplateFileName": "soloTemplate.png",
                 "LastGameSuffix": "_lastMatch",
                 "SummarySuffix": "_summary",
                 "YStartingPosition": 200,

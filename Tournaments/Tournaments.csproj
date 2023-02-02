@@ -18,10 +18,13 @@
         <Content Include="..\.gitignore">
           <Link>Linked\.gitignore</Link>
         </Content>
-        <Content Include="Assets/arial.TTF">
+        <None Include="Assets\default_uwu.ttf">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <Content Include="Assets/soloTemplate.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="Assets/template.png">
+        <Content Include="Assets/squadTemplate.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
@@ -29,6 +32,5 @@
     <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
         <Copy SourceFiles="Assets/config.json" DestinationFolder="$(OutDir)" />
     </Target>
-
-
+    
 </Project>
