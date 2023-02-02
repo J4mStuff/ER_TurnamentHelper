@@ -14,6 +14,7 @@
     "ModeMaps": [
         {
             "Name": "Solo",
+            "killsMultiplier": 4,
             "FontSize": 35,
             "FontName": "Arial",
             "TemplateConfiguration": {

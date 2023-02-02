@@ -21,7 +21,7 @@ public class TournamentLeaderBoardCreator
         {
             var results = _csvProcessor.ProcessCsv()[0]; //TODO: update this to work with multiple game files
             var modeConfiguration = _configurationModel.ModeMaps.First(m => m.Name.ToString() == type.Key);
-            results.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring));
+            results.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
             results = results.OrderByDescending(r => r.Score).ToList();
 
             _imageDrawer.PopulateTemplate(results, modeConfiguration);

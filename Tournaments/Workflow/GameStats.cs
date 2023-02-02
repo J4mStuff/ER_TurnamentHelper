@@ -11,9 +11,9 @@ public class GameStats
         TeamName = teamName;
     }
     
-    public void CalculateScore(Dictionary<string,int> placementScoring)
+    public void CalculateScore(Dictionary<string,int> placementScoring, int killsMultiplier)
     {
-        Score = Kills * 4 + placementScoring[Placements.ToString()];
+        Score = Kills * killsMultiplier + placementScoring[Placements.ToString()];
     }
 
     public int Score { get; set; }
