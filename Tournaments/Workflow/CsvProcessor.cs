@@ -27,19 +27,19 @@ public class CsvProcessor
                 : Path.Combine(executableLocation!, $"{i}.csv");
 
             var lines = ReadFileLines(csvLocation);
-
-            if (lines != null)
-            {
-                gameScores[i].AddRange(lines.Skip(1).Select(ProcessEntries));
-            }
+            gameScores.Add(_gameCount, lines.Skip(1).Select(ProcessEntries).ToList());
         }
 
         return gameScores;
     }
 
-    private static IEnumerable<string>? ReadFileLines(string fileName)
+    private static IEnumerable<string> ReadFileLines(string fileName)
     {
-        return File.Exists(fileName) ? File.ReadLines(fileName) : null;
+        if (File.Exists(fileName))
+        {
+            return File.ReadLines(fileName);
+        }
+        throw new FileNotFoundException($"File {fileName} is missing");
     }
 
     private GameStats ProcessEntries(string entryLine)

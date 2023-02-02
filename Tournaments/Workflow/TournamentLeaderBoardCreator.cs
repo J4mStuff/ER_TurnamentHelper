@@ -19,12 +19,13 @@ public class TournamentLeaderBoardCreator
     {
         foreach (var type in gameTypes.Where(t => t.Value))
         {
-            var results = _csvProcessor.ProcessCsv()[0]; //TODO: update this to work with multiple game files
+            var allGames = _csvProcessor.ProcessCsv();
+            var lastGame = allGames.First().Value; //TODO make it work for all games
             var modeConfiguration = _configurationModel.ModeMaps.First(m => m.Name.ToString() == type.Key);
-            results.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
-            results = results.OrderByDescending(r => r.Score).ToList();
+            lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+            lastGame = lastGame.OrderByDescending(r => r.Score).ToList();
 
-            _imageDrawer.PopulateTemplate(results, modeConfiguration);
+            _imageDrawer.PopulateTemplate(lastGame, modeConfiguration);
         }
     }
 }

@@ -1,5 +1,7 @@
 {
-    "GameFiles": ["1.csv"],
+    "GameFiles": [
+        "1.csv"
+    ],
     "GameTypeSwitch": {
         "Solo": true,
         "Squad": false
@@ -14,17 +16,59 @@
     "ModeMaps": [
         {
             "Name": "Solo",
-            "killsMultiplier": 4,
-            "FontSize": 35,
             "FontName": "Arial",
+            "FontColour":
+            {
+                "R": 255,
+                "G": 255,
+                "B": 255
+            },
             "TemplateConfiguration": {
+                "TemplateFileName": "template.png",
+                "LastGameSuffix": "_lastMatch",
+                "SummarySuffix": "_summary",
                 "YStartingPosition": 200,
                 "NewLineDistance": 50,
-                "NameFieldPosition": 430,
-                "PlacementFieldPosition": 1255,
-                "KillsFieldPosition": 1388,
-                "ScoreFieldPosition": 1505
+                "Columns": [
+                    {
+                        "NameField": {
+                            "XPosition": 100,
+                            "FontSize": 35
+                        },
+                        "PlacementField": {
+                            "XPosition": 200,
+                            "FontSize": 30
+                        },
+                        "KillsField": {
+                            "XPosition": 300,
+                            "FontSize": 25
+                        },
+                        "ScoreField": {
+                            "XPosition": 400,
+                            "FontSize": 20
+                        }
+                    },
+                    {
+                        "NameField": {
+                            "XPosition": 800,
+                            "FontSize": 35
+                        },
+                        "PlacementField": {
+                            "XPosition": 900,
+                            "FontSize": 30
+                        },
+                        "KillsField": {
+                            "XPosition": 1000,
+                            "FontSize": 25
+                        },
+                        "ScoreField": {
+                            "XPosition": 1100,
+                            "FontSize": 20
+                        }
+                    }
+                ]
             },
+            "killsMultiplier": 4,
             "PlacementScoring": {
                 "1": 1,
                 "2": 1,

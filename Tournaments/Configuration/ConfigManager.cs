@@ -14,7 +14,8 @@ public class ConfigManager
             ? File.ReadAllText(ConfigFilename)
             : throw new NoNullAllowedException("Configuration file missing");
 
-        return JsonSerializer.Deserialize<ConfigurationModel>(configString)
-               ?? new ConfigurationModel();
+        var model = JsonSerializer.Deserialize<ConfigurationModel>(configString);
+
+        return model!;
     }
 }

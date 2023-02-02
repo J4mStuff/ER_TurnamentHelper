@@ -2,52 +2,73 @@ using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Processing;
+using Tournaments.Enums;
 using Tournaments.Models;
 
 namespace Tournaments.Workflow;
 
 public class ImageDrawer
 {
-    private string TemplateFileName = Path.Combine("Assets", "template.png");
-    private const string OutputDirectory = "out";
-    private readonly Font _font = SystemFonts.CreateFont("Arial", 35);
+    private ModeConfiguration _modeConfiguration = new();
+    private const string OutputDirectory = "leaderboards";
 
-    private const float StartingX = 430;
-    private const float StartingY = 200;
-
-    public void PopulateTemplate(List<GameStats> statsList, ModeConfiguration modeConfiguration)
+    public void PopulateTemplate(List<GameStats> statsList, ModeConfiguration config)
     {
-        Initialize();
-        var outFile = $"{modeConfiguration.Name.ToString()}_leaderboards";
-        DrawStats(statsList, outFile);
-    }
-
-    private static void Initialize()
-    {
+        _modeConfiguration = config;
         Directory.CreateDirectory(OutputDirectory);
+        DrawStats(statsList, $"{_modeConfiguration.Name}{_modeConfiguration.TemplateConfiguration.SummarySuffix}");
+        DrawStats(statsList, $"{_modeConfiguration.Name}{_modeConfiguration.TemplateConfiguration.LastGameSuffix}");
     }
 
-    private void DrawStats(List<GameStats> statsList, string outFileName)
+    private void DrawStats(IReadOnlyCollection<GameStats> statsList, string outFileName)
     {
-        var image = Image.Load(TemplateFileName);
+        var image = Image.Load(Path.Combine("Assets", _modeConfiguration.TemplateConfiguration.TemplateFileName));
 
-        var positionMultiplier = 1;
+        var columns = _modeConfiguration.TemplateConfiguration.Columns.Count;
+        var entriesPerColum = statsList.Count / columns;
+
+        var startingY = _modeConfiguration.TemplateConfiguration.YStartingPosition;
+
+        var processed = 0;
+        var chunk = statsList.Skip(processed).Take(entriesPerColum).ToList();
+        foreach (var column in _modeConfiguration.TemplateConfiguration.Columns)
+        {
+            image = DrawStats2(image, column, chunk, startingY);
+            processed += chunk.Count;
+        }
+        
+        image.Save($"{OutputDirectory}/{outFileName}.png");
+    }
+
+    private Image? DrawStats2(Image? image, ColumnData columnData, List<GameStats> statsList, int startingY)
+    {
+        var colour = Color.FromRgb(_modeConfiguration.FontColour[ColourCodes.R], _modeConfiguration.FontColour[ColourCodes.G], _modeConfiguration.FontColour[ColourCodes.B]);
+        var multiplier = 1;
         foreach (var stats in statsList)
         {
-            var (x, y) = (StartingX, StartingY + positionMultiplier * 50);
+            var y = startingY + multiplier * _modeConfiguration.TemplateConfiguration.NewLineDistance;
 
-            image.Mutate(op => 
-                op.DrawText(stats.PlayerName, _font, Color.White, new PointF(x, y)));
-            image.Mutate(op => 
-                op.DrawText(stats.Placements.ToString(), _font, Color.White, new PointF(x + 825, y)));
-            image.Mutate(op => 
-                op.DrawText(stats.Kills.ToString(), _font, Color.White, new PointF(x + 925, y)));
-            image.Mutate(op => 
-                op.DrawText(stats.Score.ToString(), _font, Color.White, new PointF(x + 1075, y)));
-
-            positionMultiplier++;
+            image = MutateImage(image, stats.PlayerName,
+                SystemFonts.CreateFont(_modeConfiguration.FontName, columnData.NameField.FontSize), colour,
+                new PointF(columnData.NameField.XPosition, y));
+            image = MutateImage(image, stats.Placements.ToString(),
+                SystemFonts.CreateFont(_modeConfiguration.FontName, columnData.PlacementField.FontSize), colour,
+                new PointF(columnData.PlacementField.XPosition, y));
+            image = MutateImage(image, stats.Kills.ToString(),
+                SystemFonts.CreateFont(_modeConfiguration.FontName, columnData.KillsField.FontSize), colour,
+                new PointF(columnData.KillsField.XPosition, y));
+            image = MutateImage(image, stats.Score.ToString(),
+                SystemFonts.CreateFont(_modeConfiguration.FontName, columnData.ScoreField.FontSize), colour,
+                new PointF(columnData.ScoreField.XPosition, y));
+            multiplier++;
         }
 
-        image.Save($"{OutputDirectory}/{outFileName}.png");
+        return image;
+    }
+
+    private static Image? MutateImage(Image? image, string text, Font font, Color colour, PointF position)
+    {
+        image.Mutate(op => op.DrawText(text, font, colour, position));
+        return image;
     }
 }
