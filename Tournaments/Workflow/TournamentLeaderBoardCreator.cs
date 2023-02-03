@@ -20,12 +20,42 @@ public class TournamentLeaderBoardCreator
         foreach (var type in gameTypes.Where(t => t.Value))
         {
             var allGames = _csvProcessor.ProcessCsv(_configurationModel.GameFiles);
-            var lastGame = allGames.First().Value; //TODO make it work for all games
-            var modeConfiguration = _configurationModel.ModeMaps.First(m => m.Name.ToString() == type.Key);
-            lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
-            lastGame = lastGame.OrderByDescending(r => r.Score).ToList();
-
-            _imageDrawer.PopulateTemplate(lastGame, modeConfiguration);
+            var lastGame = allGames.First();
+            GenerateLastGameData(lastGame, type.Key);
+            GenerateSummaryData(allGames, type.Key);
         }
+    }
+
+    public void GenerateLastGameData(List<GameStats> game, string type)
+    {
+        var modeConfiguration = _configurationModel.ModeMaps.First(m => m.Name.ToString() == type);
+        game.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        game = game.OrderByDescending(r => r.Score).ToList();
+        
+        _imageDrawer.PopulateTemplate(game, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+    }
+
+    public void GenerateSummaryData(List<List<GameStats>> games, string type)
+    {
+        var modeConfiguration = _configurationModel.ModeMaps.First(m => m.Name.ToString() == type);
+
+        List<GameStats> gameStatsList = games.First();
+
+        foreach (var player in gameStatsList)
+        {
+            GameStats playerStats;
+            
+            foreach (var game in games.Skip(1))
+            {
+                playerStats = game.First(p => p.PlayerName == player.PlayerName);
+                player.Kills += playerStats.Kills;
+                player.TeamKills += playerStats.TeamKills;
+            }
+        }
+        
+        gameStatsList.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        gameStatsList = gameStatsList.OrderByDescending(r => r.Score).ToList();
+
+        _imageDrawer.PopulateTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.SummarySuffix);
     }
 }

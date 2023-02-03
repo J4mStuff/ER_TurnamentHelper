@@ -1,4 +1,3 @@
-using System.Text;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -10,49 +9,49 @@ namespace Tournaments.Workflow;
 
 public class ImageDrawer
 {
-    private ModeConfiguration _modeConfiguration = new();
     private FontFamily _customFonts;
     private const string OutputDirectory = "leaderboards";
 
-    public void PopulateTemplate(List<GameStats> statsList, ModeConfiguration config)
+    public void PopulateTemplate(List<GameStats> statsList, ModeConfiguration config, string suffix)
     {
-        _modeConfiguration = config;
         var fonts = new FontCollection();
-        _customFonts = fonts.Add(Path.Combine("Assets", $"{_modeConfiguration.FontName}.ttf"));
+        _customFonts = fonts.Add(Path.Combine("Assets", $"default_uwu.ttf"));
+        _customFonts = fonts.Add(Path.Combine("Assets", $"default_extra_uwu.ttf"));
+        _customFonts = fonts.Add(Path.Combine("Assets", $"default_uwuify.ttf"));
         Directory.CreateDirectory(OutputDirectory);
-        DrawStats(statsList, $"{_modeConfiguration.Name}{_modeConfiguration.TemplateConfiguration.SummarySuffix}");
-        DrawStats(statsList, $"{_modeConfiguration.Name}{_modeConfiguration.TemplateConfiguration.LastGameSuffix}");
+        DrawStats(config, statsList, $"{config.Name}{suffix}");
+
     }
 
-    private void DrawStats(IReadOnlyCollection<GameStats> statsList, string outFileName)
+    private void DrawStats(ModeConfiguration config, IReadOnlyCollection<GameStats> statsList, string outFileName)
     {
-        var image = Image.Load(Path.Combine("Assets", _modeConfiguration.TemplateConfiguration.TemplateFileName));
+        var image = Image.Load(Path.Combine("Assets", config.TemplateConfiguration.TemplateFileName));
 
-        var columns = _modeConfiguration.TemplateConfiguration.Columns.Count;
+        var columns = config.TemplateConfiguration.Columns.Count;
         var entriesPerColum = statsList.Count / columns;
 
-        var startingY = _modeConfiguration.TemplateConfiguration.YStartingPosition;
+        var startingY = config.TemplateConfiguration.YStartingPosition;
 
         var processed = 0;
-        var chunk = statsList.Skip(processed).Take(entriesPerColum).ToList();
-        foreach (var column in _modeConfiguration.TemplateConfiguration.Columns)
+        foreach (var column in config.TemplateConfiguration.Columns)
         {
-            image = DrawStats2(image, column, chunk, startingY);
+            var chunk = statsList.Skip(processed).Take(entriesPerColum).ToList();
+            image = DrawStats2(image, config, column, chunk, startingY);
             processed += chunk.Count;
         }
         
         image.Save($"{OutputDirectory}/{outFileName}.png");
     }
 
-    private Image? DrawStats2(Image? image, ColumnData columnData, List<GameStats> statsList, int startingY)
+    private Image? DrawStats2(Image? image, ModeConfiguration config, ColumnData columnData, List<GameStats> statsList, int startingY)
     {
-        var colour = Color.FromRgb(_modeConfiguration.FontColour[ColourCodes.R], _modeConfiguration.FontColour[ColourCodes.G], _modeConfiguration.FontColour[ColourCodes.B]);
+        var colour = Color.FromRgb(config.FontColour[ColourCodes.R], config.FontColour[ColourCodes.G], config.FontColour[ColourCodes.B]);
         var multiplier = 1;
 
         foreach (var stats in statsList)
         {
-            var y = startingY + multiplier * _modeConfiguration.TemplateConfiguration.NewLineDistance;
-            var pName = EscapeString(stats.PlayerName);
+            var y = startingY + multiplier * config.TemplateConfiguration.NewLineDistance;
+            var pName = stats.PlayerName;
 
             image = MutateImage(image, pName,
                 _customFonts.CreateFont(columnData.NameField.FontSize), colour,
@@ -71,25 +70,9 @@ public class ImageDrawer
 
         return image;
     }
-
-    private static string EscapeString(string s)
-    {
-        var sb = new StringBuilder();
-
-        foreach (var c in s)
-        {
-            var i = (int)c;
-            if (i is < 32 or > 126)
-            {
-                sb.Append($" ");
-            }
-            else
-            {
-                sb.Append(c);
-            }
-        }
-        return sb.ToString();
-    }
+    
+    //TODO do this??
+    //https://stackoverflow.com/questions/5604855/how-to-determine-which-fonts-contain-a-specific-character
 
     private static Image? MutateImage(Image? image, string text, Font font, Color colour, PointF position)
     {

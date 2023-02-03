@@ -14,7 +14,7 @@ public class CsvProcessor
         _gameCount = gameCount;
     }
 
-    public Dictionary<int, List<GameStats>> ProcessCsv(IEnumerable<string> fileNames)
+    public List<List<GameStats>> ProcessCsv(IEnumerable<string> fileNames)
     {
         return (from fileName in fileNames
             let executableLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
@@ -22,7 +22,9 @@ public class CsvProcessor
                 ? $"../../../Stubs/{fileName}"
                 : Path.Combine(executableLocation!, fileName)
             into csvLocation
-            select ReadFileLines(csvLocation)).ToDictionary(lines => _gameCount, lines => lines.Skip(1).Select(ProcessEntries).ToList());
+            select ReadFileLines(csvLocation)
+            into lines
+            select lines.Skip(1).Select(ProcessEntries).ToList()).ToList();
     }
 
     private static IEnumerable<string> ReadFileLines(string fileName)

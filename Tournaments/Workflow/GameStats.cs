@@ -20,9 +20,9 @@ public class GameStats
 
     public int Placements { get; }
 
-    public int Kills { get; }
+    public int Kills { get; set; }
 
     public string PlayerName { get; }
     public string TeamName { get; }
-    public int TeamKills { get; }
+    public int TeamKills { get; set; }
 }

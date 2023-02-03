@@ -1,6 +1,7 @@
 {
     "GameFiles": [
-        "tag1.csv"
+        "squad1.csv",
+        "squad2.csv"
     ],
     "GameTypeSwitch": {
         "Solo": true,
@@ -16,7 +17,7 @@
     "ModeMaps": [
         {
             "Name": "Solo",
-            "FontName": "default_uwu",
+            "FontName": "test",
             "FontColour":
             {
                 "R": 255,
@@ -27,43 +28,43 @@
                 "TemplateFileName": "soloTemplate.png",
                 "LastGameSuffix": "_lastMatch",
                 "SummarySuffix": "_summary",
-                "YStartingPosition": 200,
-                "NewLineDistance": 50,
+                "YStartingPosition": 210,
+                "NewLineDistance": 69,
                 "Columns": [
                     {
                         "NameField": {
-                            "XPosition": 100,
+                            "XPosition": 430,
                             "FontSize": 35
                         },
                         "PlacementField": {
-                            "XPosition": 200,
-                            "FontSize": 30
+                            "XPosition": 350,
+                            "FontSize": 35
                         },
                         "KillsField": {
-                            "XPosition": 300,
-                            "FontSize": 25
+                            "XPosition": 760,
+                            "FontSize": 35
                         },
                         "ScoreField": {
-                            "XPosition": 400,
-                            "FontSize": 20
+                            "XPosition": 880,
+                            "FontSize": 35
                         }
                     },
                     {
                         "NameField": {
-                            "XPosition": 800,
+                            "XPosition": 1050,
                             "FontSize": 35
                         },
                         "PlacementField": {
-                            "XPosition": 900,
-                            "FontSize": 30
+                            "XPosition": 980,
+                            "FontSize": 35
                         },
                         "KillsField": {
-                            "XPosition": 1000,
-                            "FontSize": 25
+                            "XPosition": 1445,
+                            "FontSize": 35
                         },
                         "ScoreField": {
-                            "XPosition": 1100,
-                            "FontSize": 20
+                            "XPosition": 1555,
+                            "FontSize": 35
                         }
                     }
                 ]
