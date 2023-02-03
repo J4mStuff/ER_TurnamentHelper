@@ -22,7 +22,7 @@ public class GameStats
 
     public int Kills { get; set; }
 
-    public string PlayerName { get; }
-    public string TeamName { get; }
+    public string PlayerName { get; set; }
+    public string TeamName { get; set; }
     public int TeamKills { get; set; }
 }

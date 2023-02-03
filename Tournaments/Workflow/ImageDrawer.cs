@@ -16,8 +16,6 @@ public class ImageDrawer
     {
         var fonts = new FontCollection();
         _customFonts = fonts.Add(Path.Combine("Assets", $"default_uwu.ttf"));
-        _customFonts = fonts.Add(Path.Combine("Assets", $"default_extra_uwu.ttf"));
-        _customFonts = fonts.Add(Path.Combine("Assets", $"default_uwuify.ttf"));
         Directory.CreateDirectory(OutputDirectory);
         DrawStats(config, statsList, $"{config.Name}{suffix}");
 
@@ -70,9 +68,6 @@ public class ImageDrawer
 
         return image;
     }
-    
-    //TODO do this??
-    //https://stackoverflow.com/questions/5604855/how-to-determine-which-fonts-contain-a-specific-character
 
     private static Image? MutateImage(Image? image, string text, Font font, Color colour, PointF position)
     {

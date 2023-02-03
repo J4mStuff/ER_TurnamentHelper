@@ -15,47 +15,120 @@ public class TournamentLeaderBoardCreator
         _imageDrawer = new ImageDrawer();
     }
 
-    public void GenerateData(Dictionary<string, bool> gameTypes)
+    public void GenerateData()
     {
-        foreach (var type in gameTypes.Where(t => t.Value))
+        foreach (var modeConfiguration in _configurationModel.GetTrackedModes())
         {
             var allGames = _csvProcessor.ProcessCsv(_configurationModel.GameFiles);
-            var lastGame = allGames.First();
-            GenerateLastGameData(lastGame, type.Key);
-            GenerateSummaryData(allGames, type.Key);
+            var lastGame = allGames.Last();
+
+            switch (Enum.Parse(typeof(GameType), modeConfiguration.Name))
+            {
+                case GameType.Solo:
+                    GenerateLastGameData(lastGame, modeConfiguration);
+                    GenerateSoloSummaryData(allGames, modeConfiguration);
+                    break;
+                case GameType.Squad:
+                    GenerateLastGameData(lastGame, modeConfiguration);
+                    GenerateSquadSummaryData(allGames, modeConfiguration);
+                    break;
+                case GameType.Tag:
+                    var teams = _csvProcessor.ProcessTemporaryTeams();
+                    GenerateLastGameData(lastGame, modeConfiguration, teams);
+                    GenerateTagSummaryData(allGames, modeConfiguration, teams);
+                    break;
+            }
         }
     }
 
-    public void GenerateLastGameData(List<GameStats> game, string type)
+    private void GenerateLastGameData(List<GameStats> game, ModeConfiguration modeConfiguration, CustomTeams? teams = null)
     {
-        var modeConfiguration = _configurationModel.ModeMaps.First(m => m.Name.ToString() == type);
         game.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
         game = game.OrderByDescending(r => r.Score).ToList();
-        
+
+        if (teams != null)
+        {
+            game.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
+        }
+
         _imageDrawer.PopulateTemplate(game, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
     }
 
-    public void GenerateSummaryData(List<List<GameStats>> games, string type)
+    private GameStats ProcessSoloGroup(IGrouping<string,GameStats> grouping)
     {
-        var modeConfiguration = _configurationModel.ModeMaps.First(m => m.Name.ToString() == type);
+        var temp = grouping.Select(g => g).ToList();
 
-        List<GameStats> gameStatsList = games.First();
-
-        foreach (var player in gameStatsList)
+        var main = temp.First();
+        foreach (var item in temp.Skip(1))
         {
-            GameStats playerStats;
-            
-            foreach (var game in games.Skip(1))
-            {
-                playerStats = game.First(p => p.PlayerName == player.PlayerName);
-                player.Kills += playerStats.Kills;
-                player.TeamKills += playerStats.TeamKills;
-            }
+            main.Kills += item.Kills;
+            main.Score += item.Score;
         }
         
-        gameStatsList.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        return main;
+    }
+    
+    private void GenerateSoloSummaryData(IEnumerable<List<GameStats>> games,
+        ModeConfiguration modeConfiguration)
+    {
+        var entries = games.SelectMany(r => r).ToList();
+        entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+
+        var gameStatsList = entries.GroupBy(x => x.PlayerName).Select(ProcessSoloGroup).ToList();
+        
         gameStatsList = gameStatsList.OrderByDescending(r => r.Score).ToList();
 
+        _imageDrawer.PopulateTemplate(gameStatsList, modeConfiguration,
+            modeConfiguration.TemplateConfiguration.SummarySuffix);
+    }
+
+    private GameStats ProcessTeamGroup(IGrouping<string,GameStats> grouping)
+    {
+        var temp = grouping.Select(g => g).ToList();
+
+        var main = temp.First();
+        var players = new List<string>{main.PlayerName};
+
+        foreach (var item in temp.Skip(1))
+        {
+            main.TeamKills += item.TeamKills;
+            if (!players.Contains(item.PlayerName))
+            {
+                players.Add(item.PlayerName);
+            }
+
+            main.Score += item.Score;
+        }
+
+        main.PlayerName = string.Join(", ", players);
+
+        return main;
+    }
+    
+    private void GenerateTagSummaryData(IEnumerable<List<GameStats>> games, ModeConfiguration modeConfiguration, CustomTeams teams)
+    {
+        var entries = games.SelectMany(r => r).ToList();
+        entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+
+        var gameStatsList = entries.GroupBy(x => x.TeamName).Select(ProcessSoloGroup).ToList();
+        
+        gameStatsList = gameStatsList.OrderByDescending(r => r.Score).ToList();
+        
+        gameStatsList.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
+        
         _imageDrawer.PopulateTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.SummarySuffix);
+    }
+
+    private void GenerateSquadSummaryData(IEnumerable<List<GameStats>> games, ModeConfiguration modeConfiguration)
+    {
+        var entries = games.SelectMany(r => r).ToList();
+        entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+
+        var gameStatsList = entries.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
+        
+        gameStatsList = gameStatsList.OrderByDescending(r => r.Score).ToList();
+
+        _imageDrawer.PopulateTemplate(gameStatsList, modeConfiguration,
+            modeConfiguration.TemplateConfiguration.SummarySuffix);
     }
 }

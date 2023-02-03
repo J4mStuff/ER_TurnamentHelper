@@ -18,15 +18,12 @@
         <Content Include="..\.gitignore">
           <Link>Linked\.gitignore</Link>
         </Content>
-        <None Include="Assets\default_uwu.ttf">
+        <Content Include="Assets\default_uwu.ttf">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Assets\default_extra_uwu.ttf">
+        </Content>
+        <Content Include="Assets\teams.csv">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Assets\default_uwuify.ttf">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
+        </Content>
         <Content Include="Assets/soloTemplate.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>

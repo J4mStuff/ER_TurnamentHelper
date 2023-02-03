@@ -11,6 +11,6 @@ public static class Program
         var configuration = manager.ReadAllSettings();
         
         var tournamentLeaderboardCalculator = new TournamentLeaderBoardCreator(configuration);
-        tournamentLeaderboardCalculator.GenerateData(configuration.GameTypeSwitch);
+        tournamentLeaderboardCalculator.GenerateData();
     }
 }

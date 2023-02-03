@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
+using Tournaments.Models;
 
 namespace Tournaments.Workflow;
 
@@ -26,6 +27,30 @@ public class CsvProcessor
             into lines
             select lines.Skip(1).Select(ProcessEntries).ToList()).ToList();
     }
+    
+    public CustomTeams ProcessTemporaryTeams()
+    {
+        var csvLocation = Path.Combine("Assets", "teams.csv");
+
+        var lines = ReadFileLines(csvLocation);
+
+        var list = lines.Skip(1).Select(ProcessTeams).ToList();
+
+        var dict = new CustomTeams();
+        foreach (var item in list)
+        {
+            if (dict.Team.Keys.Contains(item.Key))
+            {
+                dict.Team[item.Key].Add(item.Value);
+            }
+            else
+            {
+                dict.Team.Add(item.Key, new List<string>{item.Value});
+            }
+        }
+
+        return dict;
+    }
 
     private static IEnumerable<string> ReadFileLines(string fileName)
     {
@@ -36,6 +61,16 @@ public class CsvProcessor
         throw new FileNotFoundException($"File {fileName} is missing");
     }
 
+    private KeyValuePair<string, string> ProcessTeams(string entryLine)
+    {
+        var fields = entryLine.Split(',');
+
+        var nickName = fields[0];
+        var teamName = fields[1];
+
+        return new KeyValuePair<string, string>(teamName, nickName);
+    }
+    
     private GameStats ProcessEntries(string entryLine)
     {
         var fields = entryLine.Split(',');

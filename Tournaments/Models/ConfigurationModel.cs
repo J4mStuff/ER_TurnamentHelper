@@ -17,4 +17,17 @@ public class ConfigurationModel
     public Dictionary<string, bool> GameTypeSwitch { get; set; }
     public List<ModeConfiguration> ModeMaps { get; set; }
 
+    public List<ModeConfiguration> GetTrackedModes()
+    {
+        var toReturn = new List<ModeConfiguration>();
+        foreach (var mode in ModeMaps)
+        {
+            if (GameTypeSwitch.ContainsKey(mode.Name) && GameTypeSwitch[mode.Name])
+            {
+                toReturn.Add(mode);
+            }
+        }
+
+        return toReturn;
+    }
 }
