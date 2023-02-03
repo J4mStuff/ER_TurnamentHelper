@@ -1,19 +1,19 @@
 {
     "GameFiles": [
-        "squad1.csv",
-        "squad2.csv"
+        "solo1.csv",
+        "solo2.csv"
     ],
     "GameTypeSwitch": {
-        "Solo": false,
+        "Solo": true,
         "Squad": false,
-        "Tag": true
+        "Tag": false
     },
     "ColumnIds": {
         "PlacementColumn": 0,
         "PlayerNameColumn": 3,
-        "TeamKillsColumn": 7,
-        "SoloKillsColumn": 8,
-        "TeamNameColumn": 13
+        "TeamKillsColumn": 8,
+        "SoloKillsColumn": 7,
+        "TeamNameColumn": 14
     },
     "ModeMaps": [
         {
@@ -37,10 +37,6 @@
                             "XPosition": 430,
                             "FontSize": 35
                         },
-                        "PlacementField": {
-                            "XPosition": 350,
-                            "FontSize": 35
-                        },
                         "KillsField": {
                             "XPosition": 760,
                             "FontSize": 35
@@ -53,10 +49,6 @@
                     {
                         "NameField": {
                             "XPosition": 1050,
-                            "FontSize": 35
-                        },
-                        "PlacementField": {
-                            "XPosition": 980,
                             "FontSize": 35
                         },
                         "KillsField": {
@@ -113,10 +105,6 @@
                             "XPosition": 430,
                             "FontSize": 35
                         },
-                        "PlacementField": {
-                            "XPosition": 350,
-                            "FontSize": 35
-                        },
                         "KillsField": {
                             "XPosition": 760,
                             "FontSize": 35
@@ -129,10 +117,6 @@
                     {
                         "NameField": {
                             "XPosition": 1050,
-                            "FontSize": 35
-                        },
-                        "PlacementField": {
-                            "XPosition": 980,
                             "FontSize": 35
                         },
                         "KillsField": {
@@ -189,34 +173,12 @@
                             "XPosition": 430,
                             "FontSize": 15
                         },
-                        "PlacementField": {
-                            "XPosition": 350,
-                            "FontSize": 35
-                        },
                         "KillsField": {
                             "XPosition": 760,
                             "FontSize": 35
                         },
                         "ScoreField": {
                             "XPosition": 880,
-                            "FontSize": 35
-                        }
-                    },
-                    {
-                        "NameField": {
-                            "XPosition": 1050,
-                            "FontSize": 35
-                        },
-                        "PlacementField": {
-                            "XPosition": 980,
-                            "FontSize": 35
-                        },
-                        "KillsField": {
-                            "XPosition": 1445,
-                            "FontSize": 35
-                        },
-                        "ScoreField": {
-                            "XPosition": 1555,
                             "FontSize": 35
                         }
                     }

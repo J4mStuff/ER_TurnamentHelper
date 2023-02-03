@@ -34,14 +34,14 @@ public class ImageDrawer
         foreach (var column in config.TemplateConfiguration.Columns)
         {
             var chunk = statsList.Skip(processed).Take(entriesPerColum).ToList();
-            image = DrawStats2(image, config, column, chunk, startingY);
+            image = MutateImage(image, config, column, chunk, startingY);
             processed += chunk.Count;
         }
         
         image.Save($"{OutputDirectory}/{outFileName}.png");
     }
 
-    private Image? DrawStats2(Image? image, ModeConfiguration config, ColumnData columnData, List<GameStats> statsList, int startingY)
+    private Image? MutateImage(Image? image, ModeConfiguration config, ColumnData columnData, List<GameStats> statsList, int startingY)
     {
         var colour = Color.FromRgb(config.FontColour[ColourCodes.R], config.FontColour[ColourCodes.G], config.FontColour[ColourCodes.B]);
         var multiplier = 1;
@@ -54,9 +54,9 @@ public class ImageDrawer
             image = MutateImage(image, pName,
                 _customFonts.CreateFont(columnData.NameField.FontSize), colour,
                 new PointF(columnData.NameField.XPosition, y));
-            image = MutateImage(image, stats.Placements.ToString(),
-                _customFonts.CreateFont(columnData.PlacementField.FontSize), colour,
-                new PointF(columnData.PlacementField.XPosition, y));
+            //image = MutateImage(image, stats.Placements.ToString(),
+            //    _customFonts.CreateFont(columnData.PlacementField.FontSize), colour,
+            //    new PointF(columnData.PlacementField.XPosition, y));
             image = MutateImage(image, stats.Kills.ToString(),
                 _customFonts.CreateFont(columnData.KillsField.FontSize), colour,
                 new PointF(columnData.KillsField.XPosition, y));

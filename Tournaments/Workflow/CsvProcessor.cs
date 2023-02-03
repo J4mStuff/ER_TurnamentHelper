@@ -79,7 +79,7 @@ public class CsvProcessor
         var name = fields[_fieldIds.PlayerNameColumn];
         var kills = int.Parse(fields[_fieldIds.SoloKillsColumn]);
         var teamKills = int.Parse(fields[_fieldIds.TeamKillsColumn]);
-        var teamName = fields.Length >= _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn] : "N/A";
+        var teamName = fields.Length > _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn] : "N/A";
 
         return new GameStats(placement, name, teamName, kills, teamKills);
     }
