@@ -25,33 +25,50 @@ public class TournamentLeaderBoardCreator
             switch (Enum.Parse(typeof(GameType), modeConfiguration.Name))
             {
                 case GameType.Solo:
-                    lastGame = ProcessScores(lastGame, modeConfiguration);
-                    _imageDrawer.PopulateSoloTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+                    ProcessSoloGame(lastGame, modeConfiguration);
                     GenerateSoloSummaryData(allGames, modeConfiguration);
                     break;
                 case GameType.Squad:
-                    lastGame = ProcessScores(lastGame, modeConfiguration);
-                    _imageDrawer.PopulateSoloTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+                    ProcessSquadGame(lastGame, modeConfiguration);
                     GenerateSquadSummaryData(allGames, modeConfiguration);
                     break;
                 case GameType.Tag:
                     var teams = CsvProcessor.ProcessTemporaryTeams();
-                    lastGame = ProcessScores(lastGame, modeConfiguration);
-                    lastGame.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
-                    _imageDrawer.PopulateTeamTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+                    ProcessTagGame(lastGame, modeConfiguration, teams);
                     GenerateTagSummaryData(allGames, modeConfiguration, teams);
                     break;
             }
         }
     }
 
-    private static List<GameStats> ProcessScores(List<GameStats> lastGame, ModeConfiguration modeConfiguration)
+    private void ProcessSoloGame(List<GameStats> lastGame, ModeConfiguration modeConfiguration)
     {
         lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
-        return lastGame.OrderByDescending(r => r.Score).ToList();
+        lastGame = lastGame.OrderByDescending(r => r.Score).ToList();
+        _imageDrawer.PopulateSoloTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+    }
+    
+    private void ProcessSquadGame(List<GameStats> lastGame, ModeConfiguration modeConfiguration)
+    {
+
+        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        lastGame = lastGame.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).OrderByDescending(r => r.Score)
+            .ToList();
+        _imageDrawer.PopulateTeamTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+
     }
 
-    private static GameStats ProcessSoloGroup(IGrouping<string,GameStats> grouping)
+    private void ProcessTagGame(List<GameStats> lastGame, ModeConfiguration modeConfiguration, CustomTeams teams)
+    {
+        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        lastGame.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
+        lastGame = lastGame.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).OrderByDescending(r => r.Score)
+            .ToList();
+        
+        _imageDrawer.PopulateTeamTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+    }
+
+    private GameStats ProcessSoloGroup(IGrouping<string,GameStats> grouping)
     {
         var temp = grouping.Select(g => g).ToList();
 

@@ -1,15 +1,12 @@
 {
     "GameFiles": [
-        "tag1.csv",
-        "tag2.csv",
-        "tag3.csv",
-        "tag4.csv",
-        "tag5.csv"
+        "solo1.csv",
+        "solo2.csv"
     ],
     "GameTypeSwitch": {
-        "Solo": false,
+        "Solo": true,
         "Squad": false,
-        "Tag": true
+        "Tag": false
     },
     "ColumnIds": {
         "PlacementColumn": 0,
@@ -165,16 +162,16 @@
                 "B": 255
             },
             "TemplateConfiguration": {
-                "TemplateFileName": "soloTemplate.png",
+                "TemplateFileName": "squadTemplate.png",
                 "LastGameSuffix": "_lastMatch",
                 "SummarySuffix": "_summary",
-                "YStartingPosition": 210,
-                "NewLineDistance": 69,
+                "YStartingPosition": 200,
+                "NewLineDistance": 50,
                 "Columns": [
                     {
                         "NameField": {
                             "XPosition": 430,
-                            "FontSize": 15
+                            "FontSize": 35
                         },
                         "KillsField": {
                             "XPosition": 760,
