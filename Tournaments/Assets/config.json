@@ -1,7 +1,10 @@
 {
     "GameFiles": [
-        "solo1.csv",
-        "solo2.csv"
+        "tag1.csv",
+        "tag2.csv",
+        "tag3.csv",
+        "tag4.csv",
+        "tag5.csv"
     ],
     "GameTypeSwitch": {
         "Solo": false,

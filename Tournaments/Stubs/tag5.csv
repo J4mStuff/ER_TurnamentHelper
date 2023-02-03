@@ -1,0 +1,19 @@
+rank, level, character, nickname, weapon, best weapon mastery, best weapon mastery level, total field kill, team kill, kill, assist, hunting, killer, gameId, teamName
+1, 17, Felix,Player 37, 애각창, Spear, 17, 3, 14, 8, 6, 18, , 23025060, Team 1
+1, 16, Echion,Player 38, 블랙맘바킹-TL, VFArm, 14, 8, 14, 3, 9, 12, , 23025060, Team 1
+1, 18, Karla,Player 39, 영광금귀신기노, CrossBow, 18, 12, 14, 4, 9, 34, , 23025060, Team 1
+2, 17, Irem,Player 40, 안티오크의수류탄, HighAngleFire, 15, 5, 6, 3, 3, 30, Ariden, 23025060, Team 4
+2, 16, Silvia,Player 41, 마탄의사수, Pistol, 15, 6, 6, 1, 2, 45, Teaberry, 23025060, Team 4
+2, 15, Yuki,Player 42, 아론다이트, TwoHandSword, 13, 7, 6, 3, 3, 10, Ahipoki, 23025060, Team 4
+3, 19, Aya,Player 43, 저지먼트, AssaultRifle, 19, 8, 2, 2, 0, 65, Ariden, 23025060, Team 5
+3, 13, Chiara,Player 44, 레드팬서, Rapier, 11, 2, 2, 0, 2, 9, RestrictArea, 23025060, Team 5
+3, 16, Estelle,Player 9, 저거너트, Axe, 13, 3, 2, 0, 1, 12, RestrictArea, 23025060, Team 5
+4, 14, William,Player 10, 안티오크의수류탄, HighAngleFire, 10, 4, 1, 0, 1, 12, JinoWeeno, 23025060, Team 2
+4, 15, Sissela,Player 11, 점착폭탄, HighAngleFire, 14, 5, 1, 0, 1, 46, JinoWeeno, 23025060, Team 2
+4, 15, Hyunwoo,Player 12, 천잠장갑, Glove, 11, 1, 1, 1, 0, 14, JinoWeeno, 23025060, Team 2
+5, 12, Markus,Player 13, 하르페, Axe, 10, 2, 7, 3, 3, 12, Ariden, 23025060, Team 6
+5, 12, Emma,Player 14, 여제, Arcana, 12, 3, 7, 2, 3, 25, Ariden, 23025060, Team 6
+5, 13, Adela,Player 15, 미스틸테인, Rapier, 12, 4, 7, 2, 4, 12, Ariden, 23025060, Team 6
+6, 11, Estelle,Player 16, 산타무에르떼, Axe, 8, 1, 2, 0, 2, 6, Ghoul, 23025060, Team 3
+6, 11, Echion,Player 17, 슈퍼사이드와인더, VFArm, 8, 2, 2, 0, 0, 16, Ghoul, 23025060, Team 3
+6, 11, Nathapon,Player 18, 미러리스, Camera, 11, 3, 2, 2, 0, 14, RestrictArea, 23025060, Team 3

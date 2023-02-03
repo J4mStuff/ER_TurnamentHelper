@@ -35,7 +35,7 @@ public class TournamentLeaderBoardCreator
                     GenerateSquadSummaryData(allGames, modeConfiguration);
                     break;
                 case GameType.Tag:
-                    var teams = _csvProcessor.ProcessTemporaryTeams();
+                    var teams = CsvProcessor.ProcessTemporaryTeams();
                     lastGame = ProcessScores(lastGame, modeConfiguration);
                     lastGame.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
                     _imageDrawer.PopulateTeamTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
@@ -79,7 +79,7 @@ public class TournamentLeaderBoardCreator
             modeConfiguration.TemplateConfiguration.SummarySuffix);
     }
 
-    private GameStats ProcessTeamGroup(IGrouping<string,GameStats> grouping)
+    private static GameStats ProcessTeamGroup(IGrouping<string,GameStats> grouping)
     {
         var temp = grouping.Select(g => g).ToList();
 
@@ -93,7 +93,7 @@ public class TournamentLeaderBoardCreator
             {
                 players.Add(item.PlayerName);
             }
-
+            
             main.Score += item.Score;
         }
 
@@ -106,12 +106,12 @@ public class TournamentLeaderBoardCreator
     {
         var entries = games.SelectMany(r => r).ToList();
         entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
-
-        var gameStatsList = entries.GroupBy(x => x.TeamName).Select(ProcessSoloGroup).ToList();
+        entries.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
+        
+        var groups = entries.GroupBy(x => x.TeamName);
+        var gameStatsList = groups.Select(ProcessTeamGroup).ToList();
         
         gameStatsList = gameStatsList.OrderByDescending(r => r.Score).ToList();
-        
-        gameStatsList.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
         
         _imageDrawer.PopulateTeamTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.SummarySuffix);
     }

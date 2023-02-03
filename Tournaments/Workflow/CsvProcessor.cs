@@ -28,7 +28,7 @@ public class CsvProcessor
             select lines.Skip(1).Select(ProcessEntries).ToList()).ToList();
     }
     
-    public CustomTeams ProcessTemporaryTeams()
+    public static CustomTeams ProcessTemporaryTeams()
     {
         var csvLocation = Path.Combine("Assets", "teams.csv");
 
@@ -61,7 +61,7 @@ public class CsvProcessor
         throw new FileNotFoundException($"File {fileName} is missing");
     }
 
-    private KeyValuePair<string, string> ProcessTeams(string entryLine)
+    private static KeyValuePair<string, string> ProcessTeams(string entryLine)
     {
         var fields = entryLine.Split(',');
 

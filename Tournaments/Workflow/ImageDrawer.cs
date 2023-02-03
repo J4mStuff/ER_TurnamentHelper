@@ -57,11 +57,22 @@ public class ImageDrawer
         foreach (var stats in statsList)
         {
             var y = startingY + multiplier * config.TemplateConfiguration.NewLineDistance;
-            var pName = teamMode ? stats.TeamName : stats.PlayerName;
 
-            image = MutateImage(image, pName,
-                _customFonts.CreateFont(columnData.NameField.FontSize), colour,
-                new PointF(columnData.NameField.XPosition, y));
+            if (teamMode)
+            {
+                image = MutateImage(image, stats.TeamName,
+                    _customFonts.CreateFont(columnData.NameField.FontSize), colour,
+                    new PointF(columnData.NameField.XPosition, y));
+                image = MutateImage(image, stats.PlayerName,
+                    _customFonts.CreateFont(columnData.NameField.FontSize/2), colour,
+                    new PointF(columnData.NameField.XPosition, y+columnData.NameField.FontSize));
+            }
+            else
+            {
+                image = MutateImage(image, stats.PlayerName,
+                    _customFonts.CreateFont(columnData.NameField.FontSize), colour,
+                    new PointF(columnData.NameField.XPosition, y));
+            }
             image = MutateImage(image, stats.Kills.ToString(),
                 _customFonts.CreateFont(columnData.KillsField.FontSize), colour,
                 new PointF(columnData.KillsField.XPosition, y));
