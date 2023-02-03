@@ -12,16 +12,24 @@ public class ImageDrawer
     private FontFamily _customFonts;
     private const string OutputDirectory = "leaderboards";
 
-    public void PopulateTemplate(List<GameStats> statsList, ModeConfiguration config, string suffix)
+    public void PopulateSoloTemplate(List<GameStats> statsList, ModeConfiguration config, string suffix)
     {
         var fonts = new FontCollection();
         _customFonts = fonts.Add(Path.Combine("Assets", $"default_uwu.ttf"));
         Directory.CreateDirectory(OutputDirectory);
-        DrawStats(config, statsList, $"{config.Name}{suffix}");
-
+        DrawStats(config, statsList, $"{config.Name}{suffix}", false);
+    }
+    
+    public void PopulateTeamTemplate(List<GameStats> statsList, ModeConfiguration config, string suffix)
+    {
+        var fonts = new FontCollection();
+        _customFonts = fonts.Add(Path.Combine("Assets", $"default_uwu.ttf"));
+        Directory.CreateDirectory(OutputDirectory);
+        DrawStats(config, statsList, $"{config.Name}{suffix}", true);
     }
 
-    private void DrawStats(ModeConfiguration config, IReadOnlyCollection<GameStats> statsList, string outFileName)
+
+    private void DrawStats(ModeConfiguration config, IReadOnlyCollection<GameStats> statsList, string outFileName, bool teamMode)
     {
         var image = Image.Load(Path.Combine("Assets", config.TemplateConfiguration.TemplateFileName));
 
@@ -34,14 +42,14 @@ public class ImageDrawer
         foreach (var column in config.TemplateConfiguration.Columns)
         {
             var chunk = statsList.Skip(processed).Take(entriesPerColum).ToList();
-            image = MutateImage(image, config, column, chunk, startingY);
+            image = MutateImage(image, config, column, chunk, startingY, teamMode);
             processed += chunk.Count;
         }
         
         image.Save($"{OutputDirectory}/{outFileName}.png");
     }
 
-    private Image? MutateImage(Image? image, ModeConfiguration config, ColumnData columnData, List<GameStats> statsList, int startingY)
+    private Image? MutateImage(Image? image, ModeConfiguration config, ColumnData columnData, List<GameStats> statsList, int startingY, bool teamMode)
     {
         var colour = Color.FromRgb(config.FontColour[ColourCodes.R], config.FontColour[ColourCodes.G], config.FontColour[ColourCodes.B]);
         var multiplier = 1;
@@ -49,14 +57,11 @@ public class ImageDrawer
         foreach (var stats in statsList)
         {
             var y = startingY + multiplier * config.TemplateConfiguration.NewLineDistance;
-            var pName = stats.PlayerName;
+            var pName = teamMode ? stats.TeamName : stats.PlayerName;
 
             image = MutateImage(image, pName,
                 _customFonts.CreateFont(columnData.NameField.FontSize), colour,
                 new PointF(columnData.NameField.XPosition, y));
-            //image = MutateImage(image, stats.Placements.ToString(),
-            //    _customFonts.CreateFont(columnData.PlacementField.FontSize), colour,
-            //    new PointF(columnData.PlacementField.XPosition, y));
             image = MutateImage(image, stats.Kills.ToString(),
                 _customFonts.CreateFont(columnData.KillsField.FontSize), colour,
                 new PointF(columnData.KillsField.XPosition, y));

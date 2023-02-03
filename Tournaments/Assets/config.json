@@ -4,9 +4,9 @@
         "solo2.csv"
     ],
     "GameTypeSwitch": {
-        "Solo": true,
+        "Solo": false,
         "Squad": false,
-        "Tag": false
+        "Tag": true
     },
     "ColumnIds": {
         "PlacementColumn": 0,

@@ -25,36 +25,33 @@ public class TournamentLeaderBoardCreator
             switch (Enum.Parse(typeof(GameType), modeConfiguration.Name))
             {
                 case GameType.Solo:
-                    GenerateLastGameData(lastGame, modeConfiguration);
+                    lastGame = ProcessScores(lastGame, modeConfiguration);
+                    _imageDrawer.PopulateSoloTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
                     GenerateSoloSummaryData(allGames, modeConfiguration);
                     break;
                 case GameType.Squad:
-                    GenerateLastGameData(lastGame, modeConfiguration);
+                    lastGame = ProcessScores(lastGame, modeConfiguration);
+                    _imageDrawer.PopulateSoloTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
                     GenerateSquadSummaryData(allGames, modeConfiguration);
                     break;
                 case GameType.Tag:
                     var teams = _csvProcessor.ProcessTemporaryTeams();
-                    GenerateLastGameData(lastGame, modeConfiguration, teams);
+                    lastGame = ProcessScores(lastGame, modeConfiguration);
+                    lastGame.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
+                    _imageDrawer.PopulateTeamTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
                     GenerateTagSummaryData(allGames, modeConfiguration, teams);
                     break;
             }
         }
     }
 
-    private void GenerateLastGameData(List<GameStats> game, ModeConfiguration modeConfiguration, CustomTeams? teams = null)
+    private static List<GameStats> ProcessScores(List<GameStats> lastGame, ModeConfiguration modeConfiguration)
     {
-        game.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
-        game = game.OrderByDescending(r => r.Score).ToList();
-
-        if (teams != null)
-        {
-            game.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
-        }
-
-        _imageDrawer.PopulateTemplate(game, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        return lastGame.OrderByDescending(r => r.Score).ToList();
     }
 
-    private GameStats ProcessSoloGroup(IGrouping<string,GameStats> grouping)
+    private static GameStats ProcessSoloGroup(IGrouping<string,GameStats> grouping)
     {
         var temp = grouping.Select(g => g).ToList();
 
@@ -78,7 +75,7 @@ public class TournamentLeaderBoardCreator
         
         gameStatsList = gameStatsList.OrderByDescending(r => r.Score).ToList();
 
-        _imageDrawer.PopulateTemplate(gameStatsList, modeConfiguration,
+        _imageDrawer.PopulateSoloTemplate(gameStatsList, modeConfiguration,
             modeConfiguration.TemplateConfiguration.SummarySuffix);
     }
 
@@ -116,7 +113,7 @@ public class TournamentLeaderBoardCreator
         
         gameStatsList.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
         
-        _imageDrawer.PopulateTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.SummarySuffix);
+        _imageDrawer.PopulateTeamTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.SummarySuffix);
     }
 
     private void GenerateSquadSummaryData(IEnumerable<List<GameStats>> games, ModeConfiguration modeConfiguration)
@@ -128,7 +125,7 @@ public class TournamentLeaderBoardCreator
         
         gameStatsList = gameStatsList.OrderByDescending(r => r.Score).ToList();
 
-        _imageDrawer.PopulateTemplate(gameStatsList, modeConfiguration,
+        _imageDrawer.PopulateTeamTemplate(gameStatsList, modeConfiguration,
             modeConfiguration.TemplateConfiguration.SummarySuffix);
     }
 }
