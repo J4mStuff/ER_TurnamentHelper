@@ -16,6 +16,7 @@ public class ConfigurationModel
     public GameFieldIds ColumnIds { get; set; }
     public Dictionary<string, bool> GameTypeSwitch { get; set; }
     public List<ModeConfiguration> ModeMaps { get; set; }
+    public string PlayerSeparator { get; set; }
 
     public List<ModeConfiguration> GetTrackedModes()
     {

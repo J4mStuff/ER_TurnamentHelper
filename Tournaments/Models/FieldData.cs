@@ -3,6 +3,6 @@ namespace Tournaments.Models;
 public class FieldData
 {
     public int XPosition { get; set; }
-//    public int? YPositionDiff { get; set; }
+    public int YPosition { get; set; }
     public int FontSize { get; set; }
 }

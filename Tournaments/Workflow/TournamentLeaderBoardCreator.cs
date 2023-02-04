@@ -96,7 +96,7 @@ public class TournamentLeaderBoardCreator
             modeConfiguration.TemplateConfiguration.SummarySuffix);
     }
 
-    private static GameStats ProcessTeamGroup(IGrouping<string,GameStats> grouping)
+    private GameStats ProcessTeamGroup(IGrouping<string,GameStats> grouping)
     {
         var temp = grouping.Select(g => g).ToList();
 
@@ -114,7 +114,7 @@ public class TournamentLeaderBoardCreator
             main.Score += item.Score;
         }
 
-        main.PlayerName = string.Join(", ", players);
+        main.PlayerName = string.Join(_configurationModel.PlayerSeparator, players);
 
         return main;
     }

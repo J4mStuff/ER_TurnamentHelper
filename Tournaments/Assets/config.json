@@ -15,6 +15,7 @@
         "SoloKillsColumn": 7,
         "TeamNameColumn": 14
     },
+    "PlayerSeparator": "|",
     "ModeMaps": [
         {
             "Name": "Solo",
@@ -29,34 +30,39 @@
                 "TemplateFileName": "soloTemplate.png",
                 "LastGameSuffix": "_lastMatch",
                 "SummarySuffix": "_summary",
-                "YStartingPosition": 210,
                 "NewLineDistance": 69,
                 "Columns": [
                     {
                         "NameField": {
                             "XPosition": 430,
+                            "YPosition": 210,
                             "FontSize": 35
                         },
                         "KillsField": {
                             "XPosition": 760,
+                            "YPosition": 210,
                             "FontSize": 35
                         },
                         "ScoreField": {
                             "XPosition": 880,
+                            "YPosition": 210,
                             "FontSize": 35
                         }
                     },
                     {
                         "NameField": {
                             "XPosition": 1050,
+                            "YPosition": 210,
                             "FontSize": 35
                         },
                         "KillsField": {
                             "XPosition": 1445,
+                            "YPosition": 210,
                             "FontSize": 35
                         },
                         "ScoreField": {
                             "XPosition": 1555,
+                            "YPosition": 210,
                             "FontSize": 35
                         }
                     }
@@ -97,34 +103,49 @@
                 "TemplateFileName": "soloTemplate.png",
                 "LastGameSuffix": "_lastMatch",
                 "SummarySuffix": "_summary",
-                "YStartingPosition": 210,
                 "NewLineDistance": 69,
                 "Columns": [
                     {
                         "NameField": {
                             "XPosition": 430,
+                            "YPosition": 210,
+                            "FontSize": 35
+                        },
+                        "TeamNameField": {
+                            "XPosition": 430,
+                            "YPosition": 245,
                             "FontSize": 35
                         },
                         "KillsField": {
                             "XPosition": 760,
+                            "YPosition": 210,
                             "FontSize": 35
                         },
                         "ScoreField": {
                             "XPosition": 880,
+                            "YPosition": 210,
                             "FontSize": 35
                         }
                     },
                     {
                         "NameField": {
                             "XPosition": 1050,
+                            "YPosition": 210,
+                            "FontSize": 35
+                        },
+                        "TeamNameField": {
+                            "XPosition": 430,
+                            "YPosition": 245,
                             "FontSize": 35
                         },
                         "KillsField": {
                             "XPosition": 1445,
+                            "YPosition": 210,
                             "FontSize": 35
                         },
                         "ScoreField": {
                             "XPosition": 1555,
+                            "YPosition": 210,
                             "FontSize": 35
                         }
                     }
@@ -165,20 +186,27 @@
                 "TemplateFileName": "squadTemplate.png",
                 "LastGameSuffix": "_lastMatch",
                 "SummarySuffix": "_summary",
-                "YStartingPosition": 200,
                 "NewLineDistance": 50,
                 "Columns": [
                     {
                         "NameField": {
                             "XPosition": 430,
+                            "YPosition": 210,
+                            "FontSize": 35
+                        },
+                        "TeamNameField": {
+                            "XPosition": 430,
+                            "YPosition": 245,
                             "FontSize": 35
                         },
                         "KillsField": {
                             "XPosition": 760,
+                            "YPosition": 210,
                             "FontSize": 35
                         },
                         "ScoreField": {
                             "XPosition": 880,
+                            "YPosition": 210,
                             "FontSize": 35
                         }
                     }

@@ -35,50 +35,49 @@ public class ImageDrawer
 
         var columns = config.TemplateConfiguration.Columns.Count;
         var entriesPerColum = statsList.Count / columns;
-
-        var startingY = config.TemplateConfiguration.YStartingPosition;
-
+        
         var processed = 0;
         foreach (var column in config.TemplateConfiguration.Columns)
         {
             var chunk = statsList.Skip(processed).Take(entriesPerColum).ToList();
-            image = MutateImage(image, config, column, chunk, startingY, teamMode);
+            image = MutateImage(image, config, column, chunk, teamMode);
             processed += chunk.Count;
         }
         
         image.Save($"{OutputDirectory}/{outFileName}.png");
     }
 
-    private Image? MutateImage(Image? image, ModeConfiguration config, ColumnData columnData, List<GameStats> statsList, int startingY, bool teamMode)
+    private Image? MutateImage(Image? image, ModeConfiguration config, ColumnData columnData, List<GameStats> statsList, bool teamMode)
     {
         var colour = Color.FromRgb(config.FontColour[ColourCodes.R], config.FontColour[ColourCodes.G], config.FontColour[ColourCodes.B]);
         var multiplier = 1;
 
         foreach (var stats in statsList)
         {
-            var y = startingY + multiplier * config.TemplateConfiguration.NewLineDistance;
+            var multi = multiplier * config.TemplateConfiguration.NewLineDistance;
 
             if (teamMode)
             {
                 image = MutateImage(image, stats.TeamName,
                     _customFonts.CreateFont(columnData.NameField.FontSize), colour,
-                    new PointF(columnData.NameField.XPosition, y));
+                    new PointF(columnData.NameField.XPosition, columnData.TeamNameField.YPosition+multi));
                 image = MutateImage(image, stats.PlayerName,
+                    // ReSharper disable once PossibleLossOfFraction
                     _customFonts.CreateFont(columnData.NameField.FontSize/2), colour,
-                    new PointF(columnData.NameField.XPosition, y+columnData.NameField.FontSize));
+                    new PointF(columnData.NameField.XPosition, columnData.NameField.YPosition+multi));
             }
             else
             {
                 image = MutateImage(image, stats.PlayerName,
                     _customFonts.CreateFont(columnData.NameField.FontSize), colour,
-                    new PointF(columnData.NameField.XPosition, y));
+                    new PointF(columnData.NameField.XPosition, columnData.NameField.YPosition+multi));
             }
             image = MutateImage(image, stats.Kills.ToString(),
                 _customFonts.CreateFont(columnData.KillsField.FontSize), colour,
-                new PointF(columnData.KillsField.XPosition, y));
+                new PointF(columnData.KillsField.XPosition, columnData.KillsField.YPosition+multi));
             image = MutateImage(image, stats.Score.ToString(),
                 _customFonts.CreateFont(columnData.ScoreField.FontSize), colour,
-                new PointF(columnData.ScoreField.XPosition, y));
+                new PointF(columnData.ScoreField.XPosition, columnData.ScoreField.YPosition+multi));
             multiplier++;
         }
 
