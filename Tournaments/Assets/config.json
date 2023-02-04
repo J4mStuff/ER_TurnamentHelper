@@ -125,7 +125,7 @@
                         "NameField": {
                             "XPosition": 430,
                             "YPosition": 245,
-                            "FontSize": 35
+                            "FontSize": 20
                         },
                         "KillsField": {
                             "XPosition": 760,
@@ -147,7 +147,7 @@
                         "NameField": {
                             "XPosition": 1050,
                             "YPosition": 245,
-                            "FontSize": 35
+                            "FontSize": 20
                         },
                         "KillsField": {
                             "XPosition": 1445,
@@ -199,15 +199,15 @@
                 "NewLineDistance": 50,
                 "Columns": [
                     {
-                        "NameField": {
+                        "TeamNameField": {
                             "XPosition": 430,
                             "YPosition": 210,
                             "FontSize": 35
                         },
-                        "TeamNameField": {
+                        "NameField": {
                             "XPosition": 430,
                             "YPosition": 245,
-                            "FontSize": 35
+                            "FontSize": 20
                         },
                         "KillsField": {
                             "XPosition": 760,
