@@ -116,6 +116,7 @@ public class TournamentLeaderBoardCreator
                 players.Add(item.PlayerName);
             }
             
+            main.Kills += item.Kills;
             main.Score += item.Score;
         }
 
