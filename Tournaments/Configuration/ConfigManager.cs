@@ -17,9 +17,6 @@ public static class ConfigManager
             : throw new NoNullAllowedException("Configuration file missing");
         
         Log.Debug("Retrieved configuration file.");
-        Log.Information("Retrieved configuration file.");
-        Log.Error("Retrieved configuration file.");
-        Log.Fatal("Retrieved configuration file.");
 
         var model = JsonSerializer.Deserialize<ConfigurationModel>(configString) ??
                     throw new ConfigurationErrorsException("Cannot parse configuration file.");
