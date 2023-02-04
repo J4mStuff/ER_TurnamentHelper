@@ -1,11 +1,12 @@
 using System.Configuration;
 using System.Data;
 using System.Text.Json;
+using Serilog;
 using Tournaments.Models;
 
 namespace Tournaments.Configuration;
 
-public class ConfigManager
+public static class ConfigManager
 {
     private const string ConfigFilename = "config.json";
 
@@ -14,6 +15,11 @@ public class ConfigManager
         var configString = File.Exists(ConfigFilename)
             ? File.ReadAllText(ConfigFilename)
             : throw new NoNullAllowedException("Configuration file missing");
+        
+        Log.Debug("Retrieved configuration file.");
+        Log.Information("Retrieved configuration file.");
+        Log.Error("Retrieved configuration file.");
+        Log.Fatal("Retrieved configuration file.");
 
         var model = JsonSerializer.Deserialize<ConfigurationModel>(configString) ??
                     throw new ConfigurationErrorsException("Cannot parse configuration file.");

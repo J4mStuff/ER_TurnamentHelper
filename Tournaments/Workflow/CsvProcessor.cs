@@ -1,18 +1,18 @@
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Reflection;
+using Serilog;
 using Tournaments.Models;
 
 namespace Tournaments.Workflow;
 
 public class CsvProcessor
 {
-    private readonly int _gameCount;
     private readonly GameFieldIds _fieldIds;
 
-    public CsvProcessor(int gameCount, GameFieldIds fieldIds)
+    public CsvProcessor(GameFieldIds fieldIds)
     {
         _fieldIds = fieldIds;
-        _gameCount = gameCount;
     }
 
     public List<List<GameStats>> ProcessCsv(IEnumerable<string> fileNames)
@@ -34,6 +34,8 @@ public class CsvProcessor
 
         var lines = ReadFileLines(csvLocation);
         var list = lines.Skip(1).Select(ProcessTeams).ToList();
+        
+        Log.Information($"Teams parsed.");
 
         var dict = new CustomTeams();
         foreach (var item in list)
@@ -41,12 +43,16 @@ public class CsvProcessor
             if (dict.Team.Keys.Contains(item.Key))
             {
                 dict.Team[item.Key].Add(item.Value);
+                Log.Debug($"Updated {item.Key} with {item.Value}");
             }
             else
             {
                 dict.Team.Add(item.Key, new List<string>{item.Value});
+                Log.Debug($"New {item.Key} - {item.Value}");
             }
         }
+
+        Log.Information($"Teams built.");
 
         return dict;
     }
@@ -57,7 +63,8 @@ public class CsvProcessor
         {
             return File.ReadLines(fileName);
         }
-        throw new FileNotFoundException($"File {fileName} is missing");
+        Log.Fatal($"File {fileName} is missing");
+        return ImmutableArray<string>.Empty;
     }
 
     private static KeyValuePair<string, string> ProcessTeams(string entryLine)
@@ -66,6 +73,8 @@ public class CsvProcessor
 
         var nickName = fields[0].ToUpper();
         var teamName = fields[1].ToUpper();
+        
+        Log.Debug($"Got player '{nickName}', team: '{teamName}'");
 
         return new KeyValuePair<string, string>(teamName, nickName);
     }
@@ -79,6 +88,8 @@ public class CsvProcessor
         var kills = int.Parse(fields[_fieldIds.SoloKillsColumn]);
         var teamKills = int.Parse(fields[_fieldIds.TeamKillsColumn]);
         var teamName = fields.Length > _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn].ToUpper() : "N/A";
+        
+        Log.Debug($"New entry: {placement}, {name}, {teamName}, {kills}, {teamKills}");
 
         return new GameStats(placement, name, teamName, kills, teamKills);
     }

@@ -1,4 +1,4 @@
-namespace Tournaments.Workflow;
+namespace Tournaments.Enums;
 
 public enum GameType
 {

@@ -1,4 +1,4 @@
-namespace Tournaments.Workflow;
+namespace Tournaments.Models;
 
 public class GameFieldIds
 {

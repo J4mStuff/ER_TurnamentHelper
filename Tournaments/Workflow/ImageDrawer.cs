@@ -1,3 +1,4 @@
+using Serilog;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -14,6 +15,7 @@ public class ImageDrawer
 
     public void PopulateSoloTemplate(List<GameStats> statsList, ModeConfiguration config, string suffix)
     {
+        Log.Debug("Populating Solo Template");
         var fonts = new FontCollection();
         _customFonts = fonts.Add(Path.Combine("Assets", $"default_uwu.ttf"));
         Directory.CreateDirectory(OutputDirectory);
@@ -22,6 +24,7 @@ public class ImageDrawer
     
     public void PopulateTeamTemplate(List<GameStats> statsList, ModeConfiguration config, string suffix)
     {
+        Log.Debug("Populating Solo Template");
         var fonts = new FontCollection();
         _customFonts = fonts.Add(Path.Combine("Assets", config.FontName));
         Directory.CreateDirectory(OutputDirectory);
@@ -32,19 +35,24 @@ public class ImageDrawer
     private void DrawStats(ModeConfiguration config, IReadOnlyCollection<GameStats> statsList, string outFileName, bool teamMode)
     {
         var image = Image.Load(Path.Combine("Assets", config.TemplateConfiguration.TemplateFileName));
+        Log.Debug($"Loading image: {config.TemplateConfiguration.TemplateFileName}");
 
         var columns = config.TemplateConfiguration.Columns.Count;
         var entriesPerColum = statsList.Count / columns;
+        Log.Debug($"Creating {columns} columns with {entriesPerColum} players each");
         
         var processed = 0;
         foreach (var column in config.TemplateConfiguration.Columns)
         {
             var chunk = statsList.Skip(processed).Take(entriesPerColum).ToList();
+            Log.Debug($"Processing next chunk of players: {string.Join(",",chunk.Select(c => c.PlayerName))}");
             image = MutateImage(image, config, column, chunk, teamMode);
             processed += chunk.Count;
         }
-        
-        image.Save($"{OutputDirectory}/{outFileName}.png");
+
+        var outputImagePath = $"{OutputDirectory}/{outFileName}.png";
+        image.Save(outputImagePath);
+        Log.Information($"Processing of image {outputImagePath} completed.");
     }
 
     private Image? MutateImage(Image? image, ModeConfiguration config, ColumnData columnData, List<GameStats> statsList, bool teamMode)
@@ -79,6 +87,8 @@ public class ImageDrawer
                 _customFonts.CreateFont(columnData.ScoreField.FontSize), colour,
                 new PointF(columnData.ScoreField.XPosition, columnData.ScoreField.YPosition+multi));
             multiplier++;
+            Log.Debug($"Entry completed.");
+
         }
 
         return image;
@@ -86,6 +96,7 @@ public class ImageDrawer
 
     private static Image? MutateImage(Image? image, string text, Font font, Color colour, PointF position)
     {
+        Log.Debug($"Drawing entry: {text}");
         image.Mutate(op => op.DrawText(text, font, colour, position));
         return image;
     }
