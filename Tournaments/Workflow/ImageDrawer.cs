@@ -68,7 +68,7 @@ public class ImageDrawer
             {
                 image = MutateImage(image, stats.TeamName,
                     _customFonts.CreateFont(columnData.TeamNameField.FontSize), colour,
-                    new PointF(columnData.NameField.XPosition, columnData.TeamNameField.YPosition+multi));
+                    new PointF(columnData.TeamNameField.XPosition, columnData.TeamNameField.YPosition+multi));
                 image = MutateImage(image, stats.PlayerName,
                     // ReSharper disable once PossibleLossOfFraction
                     _customFonts.CreateFont(columnData.NameField.FontSize), colour,

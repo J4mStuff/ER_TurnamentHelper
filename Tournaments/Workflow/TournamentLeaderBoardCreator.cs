@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Serilog;
 using Tournaments.Enums;
 using Tournaments.Models;
