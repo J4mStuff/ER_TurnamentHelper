@@ -106,58 +106,58 @@
             "Name": "Tag",
             "FontName": "default_uwu.ttf",
             "FontColour": {
-                "R": 255,
-                "G": 255,
-                "B": 255
+                "R": 154,
+                "G": 150,
+                "B": 219
             },
             "TemplateConfiguration": {
                 "TemplateFileName": "soloTemplate.png",
                 "LastGameSuffix": "_lastMatch",
                 "SummarySuffix": "_summary",
-                "NewLineDistance": 69,
+                "NewLineDistance": 68,
                 "Columns": [
                     {
                         "TeamNameField": {
-                            "XPosition": 430,
-                            "YPosition": 210,
-                            "FontSize": 35
+                            "XPosition": 410,
+                            "YPosition": 207,
+                            "FontSize": 31
                         },
                         "NameField": {
-                            "XPosition": 430,
-                            "YPosition": 245,
-                            "FontSize": 20
+                            "XPosition": 410,
+                            "YPosition": 242,
+                            "FontSize": 14
                         },
                         "KillsField": {
-                            "XPosition": 760,
+                            "XPosition": 799,
                             "YPosition": 210,
-                            "FontSize": 35
+                            "FontSize": 40
                         },
                         "ScoreField": {
-                            "XPosition": 880,
+                            "XPosition": 888,
                             "YPosition": 210,
-                            "FontSize": 35
+                            "FontSize": 40
                         }
                     },
                     {
                         "TeamNameField": {
-                            "XPosition": 430,
-                            "YPosition": 210,
-                            "FontSize": 35
+                            "XPosition": 1054,
+                            "YPosition": 207,
+                            "FontSize": 31
                         },
                         "NameField": {
-                            "XPosition": 1050,
-                            "YPosition": 245,
-                            "FontSize": 20
+                            "XPosition": 1054,
+                            "YPosition": 242,
+                            "FontSize": 14
                         },
                         "KillsField": {
                             "XPosition": 1445,
                             "YPosition": 210,
-                            "FontSize": 35
+                            "FontSize": 40
                         },
                         "ScoreField": {
-                            "XPosition": 1555,
+                            "XPosition": 1533,
                             "YPosition": 210,
-                            "FontSize": 35
+                            "FontSize": 40
                         }
                     }
                 ]
