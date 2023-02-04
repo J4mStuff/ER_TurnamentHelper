@@ -1,12 +1,15 @@
 {
     "GameFiles": [
-        "solo1.csv",
-        "solo2.csv"
+        "game1.csv",
+        "game2.csv",
+        "game3.csv",
+        "game4.csv",
+        "game5.csv"
     ],
     "GameTypeSwitch": {
-        "Solo": true,
+        "Solo": false,
         "Squad": false,
-        "Tag": false
+        "Tag": true
     },
     "ColumnIds": {
         "PlacementColumn": 0,
@@ -19,9 +22,8 @@
     "ModeMaps": [
         {
             "Name": "Solo",
-            "FontName": "default_uwu",
-            "FontColour":
-            {
+            "FontName": "default_uwu.ttf",
+            "FontColour": {
                 "R": 255,
                 "G": 255,
                 "B": 255
@@ -33,9 +35,14 @@
                 "NewLineDistance": 69,
                 "Columns": [
                     {
-                        "NameField": {
+                        "TeamNameField": {
                             "XPosition": 430,
                             "YPosition": 210,
+                            "FontSize": 35
+                        },
+                        "NameField": {
+                            "XPosition": 430,
+                            "YPosition": 245,
                             "FontSize": 35
                         },
                         "KillsField": {
@@ -50,9 +57,14 @@
                         }
                     },
                     {
+                        "TeamNameField": {
+                            "XPosition": 430,
+                            "YPosition": 210,
+                            "FontSize": 35
+                        },
                         "NameField": {
                             "XPosition": 1050,
-                            "YPosition": 210,
+                            "YPosition": 245,
                             "FontSize": 35
                         },
                         "KillsField": {
@@ -92,9 +104,8 @@
         },
         {
             "Name": "Tag",
-            "FontName": "default_uwu",
-            "FontColour":
-            {
+            "FontName": "default_uwu.ttf",
+            "FontColour": {
                 "R": 255,
                 "G": 255,
                 "B": 255
@@ -106,12 +117,12 @@
                 "NewLineDistance": 69,
                 "Columns": [
                     {
-                        "NameField": {
+                        "TeamNameField": {
                             "XPosition": 430,
                             "YPosition": 210,
                             "FontSize": 35
                         },
-                        "TeamNameField": {
+                        "NameField": {
                             "XPosition": 430,
                             "YPosition": 245,
                             "FontSize": 35
@@ -128,13 +139,13 @@
                         }
                     },
                     {
-                        "NameField": {
-                            "XPosition": 1050,
+                        "TeamNameField": {
+                            "XPosition": 430,
                             "YPosition": 210,
                             "FontSize": 35
                         },
-                        "TeamNameField": {
-                            "XPosition": 430,
+                        "NameField": {
+                            "XPosition": 1050,
                             "YPosition": 245,
                             "FontSize": 35
                         },
@@ -175,9 +186,8 @@
         },
         {
             "Name": "Squad",
-            "FontName": "default_uwu",
-            "FontColour":
-            {
+            "FontName": "default_uwu.ttf",
+            "FontColour": {
                 "R": 255,
                 "G": 255,
                 "B": 255

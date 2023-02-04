@@ -43,7 +43,7 @@ public class TournamentLeaderBoardCreator
 
     private void ProcessSoloGame(List<GameStats> lastGame, ModeConfiguration modeConfiguration)
     {
-        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
         lastGame = lastGame.OrderByDescending(r => r.Score).ToList();
         _imageDrawer.PopulateSoloTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
     }
@@ -51,7 +51,7 @@ public class TournamentLeaderBoardCreator
     private void ProcessSquadGame(List<GameStats> lastGame, ModeConfiguration modeConfiguration)
     {
 
-        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
         lastGame = lastGame.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).OrderByDescending(r => r.Score)
             .ToList();
         _imageDrawer.PopulateTeamTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
@@ -60,7 +60,7 @@ public class TournamentLeaderBoardCreator
 
     private void ProcessTagGame(List<GameStats> lastGame, ModeConfiguration modeConfiguration, CustomTeams teams)
     {
-        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
         lastGame.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
         lastGame = lastGame.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).OrderByDescending(r => r.Score)
             .ToList();
@@ -86,7 +86,7 @@ public class TournamentLeaderBoardCreator
         ModeConfiguration modeConfiguration)
     {
         var entries = games.SelectMany(r => r).ToList();
-        entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
 
         var gameStatsList = entries.GroupBy(x => x.PlayerName).Select(ProcessSoloGroup).ToList();
         
@@ -122,7 +122,7 @@ public class TournamentLeaderBoardCreator
     private void GenerateTagSummaryData(IEnumerable<List<GameStats>> games, ModeConfiguration modeConfiguration, CustomTeams teams)
     {
         var entries = games.SelectMany(r => r).ToList();
-        entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
         entries.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
         
         var groups = entries.GroupBy(x => x.TeamName);
@@ -136,7 +136,7 @@ public class TournamentLeaderBoardCreator
     private void GenerateSquadSummaryData(IEnumerable<List<GameStats>> games, ModeConfiguration modeConfiguration)
     {
         var entries = games.SelectMany(r => r).ToList();
-        entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.killsMultiplier));
+        entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
 
         var gameStatsList = entries.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
         

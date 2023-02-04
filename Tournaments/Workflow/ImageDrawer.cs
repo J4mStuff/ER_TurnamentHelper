@@ -23,7 +23,7 @@ public class ImageDrawer
     public void PopulateTeamTemplate(List<GameStats> statsList, ModeConfiguration config, string suffix)
     {
         var fonts = new FontCollection();
-        _customFonts = fonts.Add(Path.Combine("Assets", $"default_uwu.ttf"));
+        _customFonts = fonts.Add(Path.Combine("Assets", config.FontName));
         Directory.CreateDirectory(OutputDirectory);
         DrawStats(config, statsList, $"{config.Name}{suffix}", true);
     }

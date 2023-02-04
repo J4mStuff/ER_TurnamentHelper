@@ -33,7 +33,6 @@ public class CsvProcessor
         var csvLocation = Path.Combine("Assets", "teams.csv");
 
         var lines = ReadFileLines(csvLocation);
-
         var list = lines.Skip(1).Select(ProcessTeams).ToList();
 
         var dict = new CustomTeams();
@@ -65,8 +64,8 @@ public class CsvProcessor
     {
         var fields = entryLine.Split(',');
 
-        var nickName = fields[0];
-        var teamName = fields[1];
+        var nickName = fields[0].ToUpper();
+        var teamName = fields[1].ToUpper();
 
         return new KeyValuePair<string, string>(teamName, nickName);
     }
@@ -76,10 +75,10 @@ public class CsvProcessor
         var fields = entryLine.Split(',');
 
         var placement = int.Parse(fields[_fieldIds.PlacementColumn]);
-        var name = fields[_fieldIds.PlayerNameColumn];
+        var name = fields[_fieldIds.PlayerNameColumn].ToUpper();
         var kills = int.Parse(fields[_fieldIds.SoloKillsColumn]);
         var teamKills = int.Parse(fields[_fieldIds.TeamKillsColumn]);
-        var teamName = fields.Length > _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn] : "N/A";
+        var teamName = fields.Length > _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn].ToUpper() : "N/A";
 
         return new GameStats(placement, name, teamName, kills, teamKills);
     }
