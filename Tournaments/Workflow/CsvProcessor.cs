@@ -71,8 +71,8 @@ public class CsvProcessor
     {
         var fields = entryLine.Split(',');
 
-        var nickName = fields[0].ToUpper();
-        var teamName = fields[1].ToUpper();
+        var nickName = fields[0].ToUpper().Trim();
+        var teamName = fields[1].ToUpper().Trim();
         
         Log.Debug($"Got player '{nickName}', team: '{teamName}'");
 
@@ -84,10 +84,10 @@ public class CsvProcessor
         var fields = entryLine.Split(',');
 
         var placement = int.Parse(fields[_fieldIds.PlacementColumn]);
-        var name = fields[_fieldIds.PlayerNameColumn].ToUpper();
+        var name = fields[_fieldIds.PlayerNameColumn].ToUpper().Trim();
         var kills = int.Parse(fields[_fieldIds.SoloKillsColumn]);
         var teamKills = int.Parse(fields[_fieldIds.TeamKillsColumn]);
-        var teamName = fields.Length > _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn].ToUpper() : "N/A";
+        var teamName = fields.Length > _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn].ToUpper().Trim() : "N/A";
         
         Log.Debug($"New entry: {placement}, {name}, {teamName}, {kills}, {teamKills}");
 

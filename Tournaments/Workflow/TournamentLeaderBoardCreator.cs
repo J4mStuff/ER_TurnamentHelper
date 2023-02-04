@@ -99,6 +99,13 @@ public class TournamentLeaderBoardCreator
     {
         var temp = grouping.Select(g => g).ToList();
 
+        if (string.IsNullOrEmpty(grouping.Key))
+        {
+            var message = $"Team name is blank for this team: {string.Join(",", temp.Select(x => x.PlayerName))}";
+            Log.Fatal(message);
+            throw new ArgumentNullException(message);
+        }
+        
         var main = temp.First();
         var players = new List<string>{main.PlayerName};
 
@@ -114,6 +121,8 @@ public class TournamentLeaderBoardCreator
         }
 
         main.PlayerName = string.Join(_configurationModel.PlayerSeparator, players);
+        
+        Log.Debug($"Team {grouping.Key} processed.");
 
         return main;
     }

@@ -1,3 +1,5 @@
+using Serilog;
+
 namespace Tournaments.Models;
 
 public class CustomTeams
@@ -11,6 +13,13 @@ public class CustomTeams
 
     public string GetPlayerTeam(string player)
     {
-        return Team.FirstOrDefault(p => p.Value.Contains(player)).Key;
+        var team = Team.FirstOrDefault(p => p.Value.Contains(player)).Key;
+
+        if (string.IsNullOrEmpty(team))
+        {
+            Log.Warning($"No team entry for {player}");
+        }
+
+        return team;
     }
 }
