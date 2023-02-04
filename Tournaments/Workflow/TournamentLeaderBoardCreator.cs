@@ -104,23 +104,14 @@ public class TournamentLeaderBoardCreator
             Log.Fatal(message);
             throw new ArgumentNullException(message);
         }
-        
         var main = temp.First();
-        var players = new List<string>{main.PlayerName};
 
         foreach (var item in temp.Skip(1))
         {
             main.TeamKills += item.TeamKills;
-            if (!players.Contains(item.PlayerName))
-            {
-                players.Add(item.PlayerName);
-            }
-            
             main.Kills += item.Kills;
             main.Score += item.Score;
         }
-
-        main.PlayerName = string.Join(_configurationModel.PlayerSeparator, players);
         
         Log.Debug($"Team {grouping.Key} processed.");
 
@@ -146,8 +137,13 @@ public class TournamentLeaderBoardCreator
     {
         var entries = games.SelectMany(r => r).ToList();
         entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
-        entries.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
-        
+
+        foreach (var entry in entries)
+        {
+            entry.TeamName = teams.GetPlayerTeam(entry.PlayerName);
+            entry.PlayerName = string.Join(_configurationModel.PlayerSeparator,teams.GetAllTeammates(entry.TeamName));
+        }
+
         var groups = entries.GroupBy(x => x.TeamName);
         var gameStatsList = groups.Select(ProcessTeamGroup).ToList();
         

@@ -22,4 +22,16 @@ public class CustomTeams
 
         return team;
     }
+    
+    public List<string> GetAllTeammates(string team)
+    {
+        var players = Team.FirstOrDefault(p => p.Key == team).Value;
+
+        if (string.IsNullOrEmpty(team))
+        {
+            Log.Warning($"Team {team} doesn't exist.");
+        }
+
+        return players;
+    }
 }

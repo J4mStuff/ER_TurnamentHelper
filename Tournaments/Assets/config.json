@@ -1,10 +1,7 @@
 {
     "GameFiles": [
         "game1.csv",
-        "game2.csv",
-        "game3.csv",
-        "game4.csv",
-        "game5.csv"
+        "game2.csv"
     ],
     "GameTypeSwitch": {
         "Solo": false,
@@ -15,7 +12,7 @@
         "PlacementColumn": 0,
         "PlayerNameColumn": 3,
         "TeamKillsColumn": 8,
-        "SoloKillsColumn": 7,
+        "SoloKillsColumn": 9,
         "TeamNameColumn": 14
     },
     "PlayerSeparator": "|",
@@ -128,7 +125,7 @@
                             "FontSize": 14
                         },
                         "KillsField": {
-                            "XPosition": 799,
+                            "XPosition": 790,
                             "YPosition": 210,
                             "FontSize": 40
                         },
@@ -150,7 +147,7 @@
                             "FontSize": 14
                         },
                         "KillsField": {
-                            "XPosition": 1445,
+                            "XPosition": 1435,
                             "YPosition": 210,
                             "FontSize": 40
                         },
