@@ -46,35 +46,37 @@ public class TournamentLeaderBoardCreator
         }
     }
 
-    private void ProcessSoloGame(List<GameStats> lastGame, ModeConfiguration modeConfiguration)
+    private void ProcessSoloGame(List<GameStats> gameStatsList, ModeConfiguration modeConfiguration)
     {
-        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
-        lastGame = lastGame.OrderByDescending(r => r.Score).ToList();
-        Log.Debug($"Got {lastGame.Count} entries for last game");
-        _imageDrawer.PopulateSoloTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+        gameStatsList.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
+        gameStatsList = SortEntries(gameStatsList);
+        Log.Debug($"Got {gameStatsList.Count} entries for last game");
+        
+        _imageDrawer.PopulateSoloTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
         Log.Information("Last game processing complete.");
     }
     
-    private void ProcessSquadGame(List<GameStats> lastGame, ModeConfiguration modeConfiguration)
+    private void ProcessSquadGame(List<GameStats> gameStatsList, ModeConfiguration modeConfiguration)
     {
 
-        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
-        lastGame = lastGame.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).OrderByDescending(r => r.Score)
-            .ToList();
-        Log.Debug($"Got {lastGame.Count} entries for last game");
-        _imageDrawer.PopulateTeamTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+        gameStatsList.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
+        gameStatsList = gameStatsList.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
+        gameStatsList = SortEntries(gameStatsList);
+        Log.Debug($"Got {gameStatsList.Count} entries for last game");
+        
+        _imageDrawer.PopulateTeamTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
         Log.Information("Last game processing complete.");
     }
 
-    private void ProcessTagGame(List<GameStats> lastGame, ModeConfiguration modeConfiguration, CustomTeams teams)
+    private void ProcessTagGame(List<GameStats> gameStatsList, ModeConfiguration modeConfiguration, CustomTeams teams)
     {
-        lastGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
-        lastGame.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
-        lastGame = lastGame.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).OrderByDescending(r => r.Score)
-            .ToList();
-        Log.Debug($"Got {lastGame.Count} entries for last game");
+        gameStatsList.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
+        gameStatsList.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
+        gameStatsList = gameStatsList.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
+        gameStatsList = SortEntries(gameStatsList);
+        Log.Debug($"Got {gameStatsList.Count} entries for last game");
         
-        _imageDrawer.PopulateTeamTemplate(lastGame, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
+        _imageDrawer.PopulateTeamTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.LastGameSuffix);
         Log.Information("Last game processing complete.");
     }
 
@@ -125,7 +127,7 @@ public class TournamentLeaderBoardCreator
 
         var gameStatsList = entries.GroupBy(x => x.PlayerName).Select(ProcessSoloGroup).ToList();
         
-        gameStatsList = gameStatsList.OrderByDescending(r => r.Score).ToList();
+        gameStatsList = SortEntries(gameStatsList);
         Log.Debug($"Got {gameStatsList.Count} entries for game summary");
 
         _imageDrawer.PopulateSoloTemplate(gameStatsList, modeConfiguration,
@@ -147,7 +149,7 @@ public class TournamentLeaderBoardCreator
         var groups = entries.GroupBy(x => x.TeamName);
         var gameStatsList = groups.Select(ProcessTeamGroup).ToList();
         
-        gameStatsList = gameStatsList.OrderByDescending(r => r.Score).ToList();
+        gameStatsList = SortEntries(gameStatsList);
         Log.Debug($"Got {gameStatsList.Count} entries for game summary");
 
         _imageDrawer.PopulateTeamTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.SummarySuffix);
@@ -160,12 +162,17 @@ public class TournamentLeaderBoardCreator
         entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillsMultiplier));
 
         var gameStatsList = entries.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
-        
-        gameStatsList = gameStatsList.OrderByDescending(r => r.Score).ToList();
+
+        gameStatsList = SortEntries(gameStatsList);
         Log.Debug($"Got {gameStatsList.Count} entries for game summary");
 
         _imageDrawer.PopulateTeamTemplate(gameStatsList, modeConfiguration,
             modeConfiguration.TemplateConfiguration.SummarySuffix);
         Log.Information("Summary processing complete.");
+    }
+
+    private List<GameStats> SortEntries(IEnumerable<GameStats> gameStatsList)
+    {
+        return gameStatsList.OrderByDescending(r => r.Score).ThenByDescending(r => r.Kills).ToList();
     }
 }
