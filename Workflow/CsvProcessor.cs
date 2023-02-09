@@ -1,10 +1,10 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Reflection;
+using Models;
 using Serilog;
-using Tournaments.Models;
 
-namespace Tournaments.Workflow;
+namespace Workflow;
 
 public class CsvProcessor
 {
@@ -30,7 +30,7 @@ public class CsvProcessor
     
     public static CustomTeams ProcessTemporaryTeams()
     {
-        var csvLocation = Path.Combine("Assets", "teams.csv");
+        var csvLocation = Path.Combine("assets", "teams.csv");
 
         var lines = ReadFileLines(csvLocation);
         var list = lines.Skip(1).Select(ProcessTeams).ToList();

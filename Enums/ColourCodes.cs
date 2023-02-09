@@ -1,4 +1,4 @@
-namespace Tournaments.Enums;
+namespace Enums;
 
 public enum ColourCodes
 {

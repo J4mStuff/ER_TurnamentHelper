@@ -1,12 +1,15 @@
-using Serilog;
+using Logger;
 
-namespace Tournaments.Models;
+namespace Models;
 
 public class CustomTeams
 {
+    private readonly CustomLogger _logger;
+
     public CustomTeams()
     {
         Team = new Dictionary<string, List<string>>();
+        _logger = new CustomLogger();
     }
 
     public Dictionary<string, List<string>> Team { get; set; }
@@ -17,19 +20,19 @@ public class CustomTeams
 
         if (string.IsNullOrEmpty(team))
         {
-            Log.Warning($"No team entry for {player}");
+            _logger.Warning($"No team entry for {player}");
         }
 
         return team;
     }
     
-    public List<string> GetAllTeammates(string team)
+    public IEnumerable<string> GetAllTeammates(string team)
     {
         var players = Team.FirstOrDefault(p => p.Key == team).Value;
 
         if (string.IsNullOrEmpty(team))
         {
-            Log.Warning($"Team {team} doesn't exist.");
+            _logger.Warning($"Team {team} doesn't exist.");
         }
 
         return players;

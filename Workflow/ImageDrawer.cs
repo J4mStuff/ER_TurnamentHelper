@@ -1,12 +1,12 @@
+using Enums;
+using Models;
 using Serilog;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Processing;
-using Tournaments.Enums;
-using Tournaments.Models;
 
-namespace Tournaments.Workflow;
+namespace Workflow;
 
 public class ImageDrawer
 {
@@ -17,7 +17,7 @@ public class ImageDrawer
     {
         Log.Debug("Populating Solo Template");
         var fonts = new FontCollection();
-        _customFonts = fonts.Add(Path.Combine("Assets", $"default_uwu.ttf"));
+        _customFonts = fonts.Add(Path.Combine("assets", $"default_uwu.ttf"));
         Directory.CreateDirectory(OutputDirectory);
         DrawStats(config, statsList, $"{config.Name}{suffix}", false);
     }
@@ -26,7 +26,7 @@ public class ImageDrawer
     {
         Log.Debug("Populating Solo Template");
         var fonts = new FontCollection();
-        _customFonts = fonts.Add(Path.Combine("Assets", config.FontName));
+        _customFonts = fonts.Add(Path.Combine("assets", config.FontName));
         Directory.CreateDirectory(OutputDirectory);
         DrawStats(config, statsList, $"{config.Name}{suffix}", true);
     }
@@ -34,7 +34,7 @@ public class ImageDrawer
 
     private void DrawStats(ModeConfiguration config, IReadOnlyCollection<GameStats> statsList, string outFileName, bool teamMode)
     {
-        var image = Image.Load(Path.Combine("Assets", config.TemplateConfiguration.TemplateFileName));
+        var image = Image.Load(Path.Combine("assets", config.TemplateConfiguration.TemplateFileName));
         Log.Debug($"Loading image: {config.TemplateConfiguration.TemplateFileName}");
 
         var columns = config.TemplateConfiguration.Columns.Count;

@@ -1,4 +1,4 @@
-namespace Tournaments.Models;
+namespace Models;
 
 public class GameStats
 {

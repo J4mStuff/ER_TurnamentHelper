@@ -1,7 +1,10 @@
-using Tournaments.Enums;
+
+
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace Tournaments.Models;
+using Enums;
+
+namespace Models;
 
 public class ModeConfiguration
 {

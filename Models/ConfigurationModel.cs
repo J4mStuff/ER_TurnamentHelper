@@ -1,7 +1,7 @@
-using Tournaments.Workflow;
+
 // ReSharper disable CollectionNeverUpdated.Global
 
-namespace Tournaments.Models;
+namespace Models;
 
 public class ConfigurationModel
 {

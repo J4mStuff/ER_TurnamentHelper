@@ -1,5 +1,5 @@
 // ReSharper disable ClassNeverInstantiated.Global
-namespace Tournaments.Models;
+namespace Models;
 
 public class ColumnData
 {

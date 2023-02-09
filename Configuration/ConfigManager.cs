@@ -1,22 +1,29 @@
 using System.Configuration;
 using System.Data;
 using System.Text.Json;
-using Serilog;
-using Tournaments.Models;
+using Logger;
+using Models;
 
-namespace Tournaments.Configuration;
+namespace Configuration;
 
-public static class ConfigManager
+// ReSharper disable once ClassNeverInstantiated.Global
+public class ConfigManager
 {
     private const string ConfigFilename = "config.json";
+    private readonly CustomLogger _logger;
 
-    public static ConfigurationModel ReadAllSettings()
+    public ConfigManager()
+    {
+        _logger = new CustomLogger();
+    }
+    
+    public ConfigurationModel ReadAllSettings()
     {
         var configString = File.Exists(ConfigFilename)
             ? File.ReadAllText(ConfigFilename)
             : throw new NoNullAllowedException("Configuration file missing");
         
-        Log.Debug("Retrieved configuration file.");
+        _logger.Debug("Retrieved configuration file.");
 
         var model = JsonSerializer.Deserialize<ConfigurationModel>(configString) ??
                     throw new ConfigurationErrorsException("Cannot parse configuration file.");
