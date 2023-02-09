@@ -9,6 +9,10 @@
         <PackageIcon>icon.jpg</PackageIcon>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DebugType>none</DebugType>
+    </PropertyGroup>
+
     <ItemGroup>
         <Content Include="..\.gitignore">
           <Link>Linked\.gitignore</Link>
