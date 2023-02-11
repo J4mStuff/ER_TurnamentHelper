@@ -14,16 +14,14 @@ public class CustomTeams
 
     public Dictionary<string, List<string>> Team { get; set; }
 
-    public string GetPlayerTeam(string player)
+    public string? GetPlayerTeam(string player)
     {
         var team = Team.FirstOrDefault(p => p.Value.Contains(player)).Key;
 
-        if (string.IsNullOrEmpty(team))
-        {
-            _logger.Warning($"No team entry for {player}");
-        }
-
-        return team;
+        if (!string.IsNullOrEmpty(team)) return team;
+        
+        _logger.Warning($"No team entry for {player}");
+        return null;
     }
     
     public IEnumerable<string> GetAllTeammates(string team)

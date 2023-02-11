@@ -135,6 +135,13 @@ public class CsvProcessor
         
         _logger.Debug($"New entry: {placement}, {name}, {teamName}, {fieldKills}, {zoneKills}");
 
-        return new GameStats(placement, name, teamName, zoneKills, fieldKills);
+        return new GameStats
+        {
+            FieldKills = fieldKills,
+            PlayerName = name,
+            TeamName = teamName,
+            ZoneKils = zoneKills,
+            Placements = placement
+        };
     }
 }

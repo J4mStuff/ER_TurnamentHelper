@@ -1,3 +1,5 @@
+using System.Data;
+using System.Text.Json;
 using Enums;
 using Logger;
 using Models;
@@ -25,7 +27,8 @@ public class TournamentLeaderBoardCreator
         foreach (var modeConfiguration in _configurationModel.GetTrackedModes())
         {
             var allGames = _csvProcessor.ProcessCsv(_configurationModel.GameFiles);
-            var lastGame = allGames.Last();
+            
+            var lastGame = StupidClone(allGames.Last());
             var deductionList = _csvProcessor.ProcessPointDeductions();
 
             switch (Enum.Parse(typeof(GameType), modeConfiguration.Name))
@@ -48,6 +51,18 @@ public class TournamentLeaderBoardCreator
                     break;
             }
         }
+    }
+    
+    private T StupidClone<T>(T toClone) 
+    {
+        var str = JsonSerializer.Serialize(toClone);
+        var output = JsonSerializer.Deserialize<T>(str);
+
+        if (output != null) return output;
+        
+        const string message = "Tried to clone the object which resulted in a null exception";
+        _logger.Fatal(message);
+        throw new NoNullAllowedException(message);
     }
 
     private void ProcessSoloGame(List<GameStats> gameStatsList, ModeConfiguration modeConfiguration, PointDeductions pointDeductions)
@@ -74,8 +89,12 @@ public class TournamentLeaderBoardCreator
 
     private void ProcessTagGame(List<GameStats> gameStatsList, ModeConfiguration modeConfiguration, CustomTeams teams, PointDeductions pointDeductions)
     {
-        gameStatsList.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillMultiplier, pointDeductions.GetPlayerDeduction(r.PlayerName)));
-        gameStatsList.ForEach(g => g.TeamName = teams.GetPlayerTeam(g.PlayerName));
+        foreach (var entry in gameStatsList)
+        {
+            entry.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillMultiplier, pointDeductions.GetPlayerDeduction(entry.PlayerName));
+            entry.TeamName = teams.GetPlayerTeam(entry.PlayerName) ?? entry.TeamName;
+        }
+        
         gameStatsList = gameStatsList.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
         gameStatsList = SortEntries(gameStatsList);
         _logger.Debug($"Got {gameStatsList.Count} entries for last game");
@@ -104,10 +123,11 @@ public class TournamentLeaderBoardCreator
     private GameStats ProcessTeamGroup(IGrouping<string,GameStats> grouping)
     {
         var temp = grouping.Select(g => g).ToList();
+        var playersInGame = temp.Select(p => p.PlayerName).Distinct();
 
         if (string.IsNullOrEmpty(grouping.Key))
         {
-            var message = $"Team name is blank for this team: {string.Join(",", temp.Select(x => x.PlayerName))}";
+            var message = $"Team name is blank for this team: {string.Join(",", playersInGame)}";
             _logger.Fatal(message);
             throw new ArgumentNullException(message);
         }
@@ -119,7 +139,9 @@ public class TournamentLeaderBoardCreator
             main.ZoneKils += item.ZoneKils;
             main.Score += item.Score;
         }
-        
+
+        main.PlayerName = string.Join(_configurationModel.PlayerSeparator, playersInGame);
+
         _logger.Debug($"Team {grouping.Key} processed.");
 
         return main;
@@ -143,17 +165,14 @@ public class TournamentLeaderBoardCreator
     private void GenerateTagSummaryData(IEnumerable<List<GameStats>> games, ModeConfiguration modeConfiguration, CustomTeams teams, PointDeductions pointDeductions)
     {
         var entries = games.SelectMany(r => r).ToList();
-        entries.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillMultiplier, pointDeductions.GetPlayerDeduction(r.PlayerName)));
-
         foreach (var entry in entries)
         {
-            entry.TeamName = teams.GetPlayerTeam(entry.PlayerName);
-            entry.PlayerName = string.Join(_configurationModel.PlayerSeparator,teams.GetAllTeammates(entry.TeamName));
+            entry.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillMultiplier, pointDeductions.GetPlayerDeduction(entry.PlayerName));
+            entry.TeamName = teams.GetPlayerTeam(entry.PlayerName) ?? entry.TeamName;
         }
-
-        var groups = entries.GroupBy(x => x.TeamName);
-        var gameStatsList = groups.Select(ProcessTeamGroup).ToList();
         
+        var gameStatsList = entries.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
+
         gameStatsList = SortEntries(gameStatsList);
         _logger.Debug($"Got {gameStatsList.Count} entries for game summary");
 
@@ -171,8 +190,7 @@ public class TournamentLeaderBoardCreator
         gameStatsList = SortEntries(gameStatsList);
         _logger.Debug($"Got {gameStatsList.Count} entries for game summary");
 
-        _imageDrawer.PopulateTeamTemplate(gameStatsList, modeConfiguration,
-            modeConfiguration.TemplateConfiguration.SummarySuffix);
+        _imageDrawer.PopulateTeamTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.SummarySuffix);
         _logger.Info("Summary processing complete.");
     }
 
