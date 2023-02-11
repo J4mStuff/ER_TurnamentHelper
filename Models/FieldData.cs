@@ -4,9 +4,9 @@ public class FieldData
 {
     public FieldData()
     {
-        XPosition = 0;
-        YPosition = 0;
-        FontSize = 0;
+        XPosition = new int();
+        YPosition = new int();
+        FontSize = new int();
     }
 
     public int XPosition { get; set; }

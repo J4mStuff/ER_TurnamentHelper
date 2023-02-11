@@ -7,7 +7,7 @@ public class ConfigurationModel
 {
     public ConfigurationModel()
     {
-        PlayerSeparator = "|";
+        PlayerSeparator = string.Empty;
         GameFiles = new List<string>();
         ColumnIds = new GameFieldIds();
         GameTypeSwitch = new Dictionary<string, bool>();

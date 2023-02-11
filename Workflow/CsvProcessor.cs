@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Reflection;
 using Logger;
 using Models;
 
@@ -21,10 +20,10 @@ public class CsvProcessor
     public List<List<GameStats>> ProcessCsv(IEnumerable<string> fileNames)
     {
         return (from fileName in fileNames
-            let executableLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+            //let executableLocation = Directory.GetCurrentDirectory()
             select Debugger.IsAttached
                 ? $"../../../Stubs/{fileName}"
-                : Path.Combine(executableLocation!, fileName)
+                : fileName
             into csvLocation
             select ReadFileLines(csvLocation)
             into lines
@@ -140,7 +139,7 @@ public class CsvProcessor
             FieldKills = fieldKills,
             PlayerName = name,
             TeamName = teamName,
-            ZoneKils = zoneKills,
+            ZoneKills = zoneKills,
             Placements = placement
         };
     }

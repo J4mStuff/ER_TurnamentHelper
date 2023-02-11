@@ -33,12 +33,12 @@ public class TournamentLeaderBoardCreator
 
             switch (Enum.Parse(typeof(GameType), modeConfiguration.Name))
             {
-                case GameType.Solo:
+                case GameType.Solo: //TODO fix tag style
                     _logger.Debug($"Processing {GameType.Solo} mode.");
                     ProcessSoloGame(lastGame, modeConfiguration, deductionList);
                     GenerateSoloSummaryData(allGames, modeConfiguration, deductionList);
                     break;
-                case GameType.Squad:
+                case GameType.Squad: //TODO fix tag style
                     _logger.Debug($"Processing {GameType.Squad} mode.");
                     ProcessSquadGame(lastGame, modeConfiguration, deductionList);
                     GenerateSquadSummaryData(allGames, modeConfiguration, deductionList);
@@ -89,13 +89,10 @@ public class TournamentLeaderBoardCreator
 
     private void ProcessTagGame(List<GameStats> gameStatsList, ModeConfiguration modeConfiguration, CustomTeams teams, PointDeductions pointDeductions)
     {
-        foreach (var entry in gameStatsList)
-        {
-            entry.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillMultiplier, pointDeductions.GetPlayerDeduction(entry.PlayerName));
-            entry.TeamName = teams.GetPlayerTeam(entry.PlayerName) ?? entry.TeamName;
-        }
-        
+        gameStatsList.ForEach(r => r.TeamName = teams.GetPlayerTeam(r.PlayerName) ?? r.TeamName);
         gameStatsList = gameStatsList.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
+        gameStatsList.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillMultiplier, pointDeductions.GetPlayerDeduction(r.PlayerName)));
+        
         gameStatsList = SortEntries(gameStatsList);
         _logger.Debug($"Got {gameStatsList.Count} entries for last game");
         
@@ -112,7 +109,7 @@ public class TournamentLeaderBoardCreator
         foreach (var item in temp.Skip(1))
         {
             main.FieldKills += item.FieldKills;
-            main.ZoneKils += item.ZoneKils;
+            main.ZoneKills += item.ZoneKills;
             main.Score += item.Score;
         }
         _logger.Debug($"Player {main.PlayerName}'s stats are processed");
@@ -123,7 +120,7 @@ public class TournamentLeaderBoardCreator
     private GameStats ProcessTeamGroup(IGrouping<string,GameStats> grouping)
     {
         var temp = grouping.Select(g => g).ToList();
-        var playersInGame = temp.Select(p => p.PlayerName).Distinct();
+        var playersInGame = temp.Select(p => p.PlayerName).Distinct().ToList();
 
         if (string.IsNullOrEmpty(grouping.Key))
         {
@@ -136,11 +133,35 @@ public class TournamentLeaderBoardCreator
         foreach (var item in temp.Skip(1))
         {
             main.FieldKills += item.FieldKills;
-            main.ZoneKils += item.ZoneKils;
+            main.ZoneKills += item.ZoneKills;
             main.Score += item.Score;
         }
 
-        main.PlayerName = string.Join(_configurationModel.PlayerSeparator, playersInGame);
+        main.PlayerList.AddRange(playersInGame);
+        main.PlayerList = main.PlayerList.Distinct().ToList();
+        
+        //main.PlayerName = string.Join(_configurationModel.PlayerSeparator, main.PlayerList);
+
+        _logger.Debug($"Team {grouping.Key} processed.");
+
+        return main;
+    }
+    
+    private GameStats ProcessSummaryTeamGroup(IGrouping<string,GameStats> grouping)
+    {
+        var temp = grouping.Select(g => g).ToList();
+
+        var main = temp.First();
+
+        foreach (var item in temp.Skip(1))
+        {
+            main.FieldKills += item.FieldKills;
+            main.ZoneKills += item.ZoneKills;
+            main.Score += item.Score;
+            main.PlayerList.AddRange(item.PlayerList);
+        }
+        
+        main.PlayerName = string.Join(_configurationModel.PlayerSeparator, main.PlayerList.Distinct());
 
         _logger.Debug($"Team {grouping.Key} processed.");
 
@@ -164,19 +185,21 @@ public class TournamentLeaderBoardCreator
 
     private void GenerateTagSummaryData(IEnumerable<List<GameStats>> games, ModeConfiguration modeConfiguration, CustomTeams teams, PointDeductions pointDeductions)
     {
-        var entries = games.SelectMany(r => r).ToList();
-        foreach (var entry in entries)
+        var processedGames = new List<GameStats>();
+        foreach (var game in games)
         {
-            entry.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillMultiplier, pointDeductions.GetPlayerDeduction(entry.PlayerName));
-            entry.TeamName = teams.GetPlayerTeam(entry.PlayerName) ?? entry.TeamName;
+            game.ForEach(r => r.TeamName = teams.GetPlayerTeam(r.PlayerName) ?? r.TeamName);
+            var processedGame = game.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
+            processedGame.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillMultiplier, pointDeductions.GetPlayerDeduction(r.PlayerName)));
+        
+            processedGames.AddRange(processedGame);
         }
         
-        var gameStatsList = entries.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
+        processedGames = processedGames.GroupBy(x => x.TeamName).Select(ProcessSummaryTeamGroup).ToList();
+        processedGames = SortEntries(processedGames);
+        _logger.Debug($"Got {processedGames.Count} entries for game summary");
 
-        gameStatsList = SortEntries(gameStatsList);
-        _logger.Debug($"Got {gameStatsList.Count} entries for game summary");
-
-        _imageDrawer.PopulateTeamTemplate(gameStatsList, modeConfiguration, modeConfiguration.TemplateConfiguration.SummarySuffix);
+        _imageDrawer.PopulateTeamTemplate(processedGames, modeConfiguration, modeConfiguration.TemplateConfiguration.SummarySuffix);
         _logger.Info("Summary processing complete.");
     }
 

@@ -14,7 +14,7 @@ public class PointDeductions
 
     public Dictionary<string, int> PunishmentList { get; set; }
 
-    public int GetPlayerDeduction(string player)
+    public int GetPlayerDeduction(string? player)
     {
         var playerPunishment = PunishmentList.FirstOrDefault(p => p.Key.Contains(player)).Value;
         
