@@ -90,7 +90,7 @@ public class TournamentLeaderBoardCreator
     private void ProcessTagGame(List<GameStats> gameStatsList, ModeConfiguration modeConfiguration, CustomTeams teams, PointDeductions pointDeductions)
     {
         gameStatsList.ForEach(r => r.TeamName = teams.GetPlayerTeam(r.PlayerName) ?? r.TeamName);
-        gameStatsList = gameStatsList.GroupBy(x => x.TeamName).Select(ProcessTeamGroup).ToList();
+        gameStatsList = gameStatsList.GroupBy(x => x.TeamName).Select(ProcessLastGameTeamGroup).ToList();
         gameStatsList.ForEach(r => r.CalculateScore(modeConfiguration.PlacementScoring, modeConfiguration.KillMultiplier, pointDeductions.GetPlayerDeduction(r.PlayerName)));
         
         gameStatsList = SortEntries(gameStatsList);
@@ -139,8 +139,37 @@ public class TournamentLeaderBoardCreator
 
         main.PlayerList.AddRange(playersInGame);
         main.PlayerList = main.PlayerList.Distinct().ToList();
+
+        _logger.Debug($"Team {grouping.Key} processed.");
+
+        return main;
+    }
+    
+    private GameStats ProcessLastGameTeamGroup(IGrouping<string,GameStats> grouping)
+    {
+        var temp = grouping.Select(g => g).ToList();
+        var playersInGame = temp.Select(p => p.PlayerName).Distinct().ToList();
+
+        if (string.IsNullOrEmpty(grouping.Key))
+        {
+            var message = $"Team name is blank for this team: {string.Join(",", playersInGame)}";
+            _logger.Fatal(message);
+            throw new ArgumentNullException(message);
+        }
+        var main = temp.First();
+
+        foreach (var item in temp.Skip(1))
+        {
+            main.FieldKills += item.FieldKills;
+            main.ZoneKills += item.ZoneKills;
+            main.Score += item.Score;
+        }
+
+        main.PlayerList.AddRange(playersInGame);
+        main.PlayerList = main.PlayerList.Distinct().ToList();
         
-        //main.PlayerName = string.Join(_configurationModel.PlayerSeparator, main.PlayerList);
+        main.PlayerName = string.Join(_configurationModel.PlayerSeparator, main.PlayerList.Distinct());
+
 
         _logger.Debug($"Team {grouping.Key} processed.");
 
