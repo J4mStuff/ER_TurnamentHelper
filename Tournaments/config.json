@@ -1,7 +1,7 @@
 {
     "GameFiles": [
-        "tag1.csv",
-        "tag2.csv"
+        "game1.csv",
+        "game2.csv"
     ],
     "GameTypeSwitch": {
         "Solo": false,

@@ -13,7 +13,6 @@ public class GameStats
     
     public void CalculateScore(Dictionary<string,int> placementScoring, KillMultiplierModel killMultipliers, int deductions)
     {
-        ZoneKils -= FieldKills;
         Score = 
             ZoneKils * killMultipliers.Zone
             + FieldKills * killMultipliers.Field

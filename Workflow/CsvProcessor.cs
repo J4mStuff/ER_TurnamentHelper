@@ -65,7 +65,7 @@ public class CsvProcessor
         var csvLocation = Path.Combine("assets", "playerDeductions.csv");
 
         var lines = ReadFileLines(csvLocation);
-        var list = lines.Skip(1).Select(ProcessTeams).ToList();
+        var list = lines.Skip(1).Select(ProcessDeductions).ToList();
         
         _logger.Info($"Deductions parsed.");
 
@@ -74,12 +74,12 @@ public class CsvProcessor
         {
             if (dict.PunishmentList.Keys.Contains(item.Key))
             {
-                dict.PunishmentList[item.Key] += int.Parse(item.Value);
+                dict.PunishmentList[item.Key] += item.Value;
                 _logger.Debug($"Updated {item.Key} with {item.Value}");
             }
             else
             {
-                dict.PunishmentList[item.Key] = int.Parse(item.Value);
+                dict.PunishmentList[item.Key] = item.Value;
                 _logger.Debug($"New {item.Key} - {item.Value}");
             }
         }
@@ -111,18 +111,30 @@ public class CsvProcessor
         return new KeyValuePair<string, string>(teamName, nickName);
     }
     
+    private KeyValuePair<string, int> ProcessDeductions(string entryLine)
+    {
+        var fields = entryLine.Split(',');
+
+        var player = fields[0].ToUpper().Trim();
+        var deduction = int.Parse(fields[1].ToUpper().Trim());
+        
+        _logger.Debug($"Got player '{player}', team: '{deduction}'");
+
+        return new KeyValuePair<string, int>(player, deduction);
+    }
+    
     private GameStats ProcessEntries(string entryLine)
     {
         var fields = entryLine.Split(',');
 
         var placement = int.Parse(fields[_fieldIds.PlacementColumn]);
         var name = fields[_fieldIds.PlayerNameColumn].ToUpper().Trim();
-        var kills = int.Parse(fields[_fieldIds.SoloKillsColumn]);
-        var teamKills = int.Parse(fields[_fieldIds.TeamKillsColumn]);
+        var fieldKills = int.Parse(fields[_fieldIds.TotalFieldKills]);
+        var zoneKills = int.Parse(fields[_fieldIds.SoloKillsColumn]) - fieldKills;
         var teamName = fields.Length > _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn].ToUpper().Trim() : "N/A";
         
-        _logger.Debug($"New entry: {placement}, {name}, {teamName}, {kills}, {teamKills}");
+        _logger.Debug($"New entry: {placement}, {name}, {teamName}, {fieldKills}, {zoneKills}");
 
-        return new GameStats(placement, name, teamName, kills, teamKills);
+        return new GameStats(placement, name, teamName, zoneKills, fieldKills);
     }
 }
