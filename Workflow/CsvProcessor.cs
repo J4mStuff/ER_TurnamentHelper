@@ -1,18 +1,21 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Reflection;
+using Logger;
 using Models;
-using Serilog;
 
 namespace Workflow;
 
+//TODO refactor this
 public class CsvProcessor
 {
     private readonly GameFieldIds _fieldIds;
+    private readonly CustomLogger _logger;
 
     public CsvProcessor(GameFieldIds fieldIds)
     {
         _fieldIds = fieldIds;
+        _logger = new CustomLogger();
     }
 
     public List<List<GameStats>> ProcessCsv(IEnumerable<string> fileNames)
@@ -28,14 +31,14 @@ public class CsvProcessor
             select lines.Skip(1).Select(ProcessEntries).ToList()).ToList();
     }
     
-    public static CustomTeams ProcessTemporaryTeams()
+    public CustomTeams ProcessTemporaryTeams()
     {
         var csvLocation = Path.Combine("assets", "teams.csv");
 
         var lines = ReadFileLines(csvLocation);
         var list = lines.Skip(1).Select(ProcessTeams).ToList();
         
-        Log.Information($"Teams parsed.");
+        _logger.Info($"Teams parsed.");
 
         var dict = new CustomTeams();
         foreach (var item in list)
@@ -43,38 +46,67 @@ public class CsvProcessor
             if (dict.Team.Keys.Contains(item.Key))
             {
                 dict.Team[item.Key].Add(item.Value);
-                Log.Debug($"Updated {item.Key} with {item.Value}");
+                _logger.Debug($"Updated {item.Key} with {item.Value}");
             }
             else
             {
                 dict.Team.Add(item.Key, new List<string>{item.Value});
-                Log.Debug($"New {item.Key} - {item.Value}");
+                _logger.Debug($"New {item.Key} - {item.Value}");
             }
         }
 
-        Log.Information($"Teams built.");
+        _logger.Info($"Teams built.");
+
+        return dict;
+    }
+    
+    public PointDeductions ProcessPointDeductions()
+    {
+        var csvLocation = Path.Combine("assets", "playerDeductions.csv");
+
+        var lines = ReadFileLines(csvLocation);
+        var list = lines.Skip(1).Select(ProcessTeams).ToList();
+        
+        _logger.Info($"Deductions parsed.");
+
+        var dict = new PointDeductions();
+        foreach (var item in list)
+        {
+            if (dict.PunishmentList.Keys.Contains(item.Key))
+            {
+                dict.PunishmentList[item.Key] += int.Parse(item.Value);
+                _logger.Debug($"Updated {item.Key} with {item.Value}");
+            }
+            else
+            {
+                dict.PunishmentList[item.Key] = int.Parse(item.Value);
+                _logger.Debug($"New {item.Key} - {item.Value}");
+            }
+        }
+
+        _logger.Info($"Deductions built.");
 
         return dict;
     }
 
-    private static IEnumerable<string> ReadFileLines(string fileName)
+    private IEnumerable<string> ReadFileLines(string fileName)
     {
         if (File.Exists(fileName))
         {
             return File.ReadLines(fileName);
         }
-        Log.Fatal($"File {fileName} is missing");
+        _logger.Fatal($"File {fileName} is missing");
         return ImmutableArray<string>.Empty;
     }
 
-    private static KeyValuePair<string, string> ProcessTeams(string entryLine)
+    private KeyValuePair<string, string> ProcessTeams(string entryLine)
     {
         var fields = entryLine.Split(',');
 
         var nickName = fields[0].ToUpper().Trim();
         var teamName = fields[1].ToUpper().Trim();
         
-        Log.Debug($"Got player '{nickName}', team: '{teamName}'");
+        _logger.Debug($"Got player '{nickName}', team: '{teamName}'");
 
         return new KeyValuePair<string, string>(teamName, nickName);
     }
@@ -89,7 +121,7 @@ public class CsvProcessor
         var teamKills = int.Parse(fields[_fieldIds.TeamKillsColumn]);
         var teamName = fields.Length > _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn].ToUpper().Trim() : "N/A";
         
-        Log.Debug($"New entry: {placement}, {name}, {teamName}, {kills}, {teamKills}");
+        _logger.Debug($"New entry: {placement}, {name}, {teamName}, {kills}, {teamKills}");
 
         return new GameStats(placement, name, teamName, kills, teamKills);
     }

@@ -1,17 +1,17 @@
 {
     "GameFiles": [
-        "solo1.csv",
-        "solo2.csv"
+        "tag1.csv",
+        "tag2.csv"
     ],
     "GameTypeSwitch": {
-        "Solo": true,
+        "Solo": false,
         "Squad": false,
-        "Tag": false
+        "Tag": true
     },
     "ColumnIds": {
         "PlacementColumn": 0,
         "PlayerNameColumn": 3,
-        "TeamKillsColumn": 8,
+        "TotalFieldKills": 7,
         "SoloKillsColumn": 9,
         "TeamNameColumn": 14
     },
@@ -77,7 +77,10 @@
                     }
                 ]
             },
-            "KillsMultiplier": 4,
+            "KillMultiplier": {
+                "Field": 4,
+                "Zone": 2
+            },
             "PlacementScoring": {
                 "1": 16,
                 "2": 12,
@@ -159,7 +162,10 @@
                     }
                 ]
             },
-            "KillsMultiplier": 4,
+            "KillMultiplier": {
+                "Field": 4,
+                "Zone": 2
+            },
             "PlacementScoring": {
                 "1": 16,
                 "2": 12,
@@ -219,7 +225,10 @@
                     }
                 ]
             },
-            "KillsMultiplier": 4,
+            "KillMultiplier": {
+                "Field": 4,
+                "Zone": 2
+            },
             "PlacementScoring": {
                 "1": 6,
                 "2": 5,

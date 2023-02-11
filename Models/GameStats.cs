@@ -2,27 +2,30 @@ namespace Models;
 
 public class GameStats
 {
-    public GameStats(int placement, string name,  string teamName, int kills, int teamKills)
+    public GameStats(int placement, string name,  string teamName, int zoneKils, int fieldKills)
     {
         Placements = placement;
-        Kills = kills;
-        TeamKills = teamKills;
+        ZoneKils = zoneKils;
+        FieldKills = fieldKills;
         PlayerName = name;
         TeamName = teamName;
     }
     
-    public void CalculateScore(Dictionary<string,int> placementScoring, int killsMultiplier)
+    public void CalculateScore(Dictionary<string,int> placementScoring, KillMultiplierModel killMultipliers, int deductions)
     {
-        Score = Kills * killsMultiplier + placementScoring[Placements.ToString()];
+        ZoneKils -= FieldKills;
+        Score = 
+            ZoneKils * killMultipliers.Zone
+            + FieldKills * killMultipliers.Field
+            + placementScoring[Placements.ToString()]
+            - deductions;
     }
 
     public int Score { get; set; }
 
     public int Placements { get; }
-
-    public int Kills { get; set; }
-
     public string PlayerName { get; set; }
     public string TeamName { get; set; }
-    public int TeamKills { get; set; }
+    public int ZoneKils { get; set; }
+    public int FieldKills { get; set; }
 }

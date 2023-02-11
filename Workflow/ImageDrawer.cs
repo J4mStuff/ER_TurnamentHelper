@@ -80,7 +80,7 @@ public class ImageDrawer
                     _customFonts.CreateFont(columnData.NameField.FontSize), colour,
                     new PointF(columnData.NameField.XPosition, columnData.NameField.YPosition+multi));
             }
-            image = MutateImage(image, stats.Kills.ToString(),
+            image = MutateImage(image, (stats.FieldKills+stats.ZoneKils).ToString(),
                 _customFonts.CreateFont(columnData.KillsField.FontSize), colour,
                 new PointF(columnData.KillsField.XPosition, columnData.KillsField.YPosition+multi));
             image = MutateImage(image, stats.Score.ToString(),

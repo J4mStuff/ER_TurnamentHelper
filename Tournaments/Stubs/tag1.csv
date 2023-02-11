@@ -1,19 +1,19 @@
 rank, level, character, nickname, weapon, best weapon mastery, best weapon mastery level, total field kill, team kill, kill, assist, hunting, killer, gameId, teamName
-1,17, Felix,Player 1, 애각창, Spear,17,11,14,8,6,18, ,23025060,
-1,16, Echion,Player 2, 블랙맘바킹-TL, VFArm,14,8,14,3,9,12, ,23025060,
-1,18, Karla,Player 3, 영광금귀신기노, CrossBow,18,4,14,4,9,34, ,23025060,
-2,17, Irem,Player 4, 안티오크의수류탄, HighAngleFire,15,5,6,3,3,30, Ariden,23025060,
-2,16, Silvia,Player 5, 마탄의사수, Pistol,15,6,6,1,2,45, Teaberry,23025060,
-2,15, Yuki,Player 6, 아론다이트, TwoHandSword,13,5,6,3,3,10, Ahipoki,23025060,
-3,19, Aya,Player 7, 저지먼트, AssaultRifle,19,2,2,2,0,65, Ariden,23025060,
-3,13, Chiara,Player 8, 레드팬서, Rapier,11,2,2,0,2,9, RestrictArea,23025060,
-3,16, Estelle,Player 9, 저거너트, Axe,13,2,2,0,1,12, RestrictArea,23025060,
-4,14, William,Player 10, 안티오크의수류탄, HighAngleFire,10,1,1,0,1,12, JinoWeeno,23025060,
-4,15, Sissela,Player 11, 점착폭탄, HighAngleFire,14,1,1,0,1,46, JinoWeeno,23025060,
-4,15, Hyunwoo,Player 12, 천잠장갑, Glove,11,1,1,1,0,14, JinoWeeno,23025060,
-5,12, Markus,Player 13, 하르페, Axe,10,7,7,3,3,12, Ariden,23025060,
-5,12, Emma,Player 14, 여제, Arcana,12,7,7,2,3,25, Ariden,23025060,
-5,13, Adela,Player 15, 미스틸테인, Rapier,12,4,7,2,4,12, Ariden,23025060,
-6,11, Estelle,Player 16, 산타무에르떼, Axe,8,1,2,0,2,6, Ghoul,23025060,
-6,11, Echion,Player 17, 슈퍼사이드와인더, VFArm,8,1,2,0,0,16, Ghoul,23025060,
-6,11, Nathapon,Player 18, 미러리스, Camera,11,1,2,2,0,14, RestrictArea,23025060,
+1,17,.,Player1,.,.,.,2,.,3,.,.,.,.,.
+1,16,.,Player2,.,.,.,2,.,4,.,.,.,.,.
+1,18,.,Player3,.,.,.,2,.,5,.,.,.,.,.
+2,17,.,Player4,.,.,.,2,.,6,.,.,.,.,.
+2,16,.,Player5,.,.,.,2,.,7,.,.,.,.,.
+2,15,.,Player6,.,.,.,2,.,8,.,.,.,.,.
+3,19,.,Player7,.,.,.,2,.,9,.,.,.,.,.
+3,13,.,Player8,.,.,.,2,.,10,.,.,.,.,.
+3,16,.,Player9,.,.,.,2,.,11,.,.,.,.,.
+4,14,.,Player10,.,.,.,2,.,12,.,.,.,.,.
+4,15,.,Player11,.,.,.,2,.,13,.,.,.,.,.
+4,15,.,Player12,.,.,.,2,.,14,.,.,.,.,.
+5,12,.,Player13,.,.,.,2,.,15,.,.,.,.,.
+5,12,.,Player14,.,.,.,2,.,16,.,.,.,.,.
+5,13,.,Player15,.,.,.,2,.,17,.,.,.,.,.
+6,11,.,Player16,.,.,.,2,.,18,.,.,.,.,.
+6,11,.,Player17,.,.,.,2,.,19,.,.,.,.,.
+6,11,.,Player18,.,.,.,2,.,20,.,.,.,.,.

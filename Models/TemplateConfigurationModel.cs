@@ -1,9 +1,9 @@
 // ReSharper disable ClassNeverInstantiated.Global
 namespace Models;
 
-public class TemplateModeSettings
+public class TemplateConfigurationModel
 {
-    public TemplateModeSettings()
+    public TemplateConfigurationModel()
     {
         TemplateFileName = string.Empty;
         LastGameSuffix = string.Empty;

@@ -13,8 +13,8 @@ public class ModeConfiguration
         Name = string.Empty;
         FontName = string.Empty;
         FontColour = new Dictionary<ColourCodes, byte>();
-        TemplateConfiguration = new TemplateModeSettings();
-        KillsMultiplier = 1;
+        TemplateConfiguration = new TemplateConfigurationModel();
+        KillMultiplier = new KillMultiplierModel();
         PlacementScoring = new Dictionary<string, int>();
     }
 
@@ -22,7 +22,7 @@ public class ModeConfiguration
     public string FontName { get; set; }
     // ReSharper disable once CollectionNeverUpdated.Global
     public Dictionary<ColourCodes, byte> FontColour { get; set; }
-    public TemplateModeSettings TemplateConfiguration { get; set; }
-    public int KillsMultiplier { get; set; }
+    public TemplateConfigurationModel TemplateConfiguration { get; set; }
+    public KillMultiplierModel KillMultiplier { get; set; }
     public Dictionary<string, int> PlacementScoring { get; set; }
 }
