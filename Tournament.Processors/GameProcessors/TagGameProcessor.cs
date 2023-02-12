@@ -1,10 +1,30 @@
 using Models;
+using Workflow.Spreadsheet;
 
 namespace Workflow.GameProcessors;
 
 public class TagGameProcessor : GameProcessorBase
 {
-    public void GenerateTagSummaryData(IEnumerable<List<GameStats>> games,
+    private readonly TemporaryTeamSpreadsheet _temporaryTeamSpreadsheet;
+
+    public TagGameProcessor()
+    {
+        _temporaryTeamSpreadsheet = new TemporaryTeamSpreadsheet();
+    }
+
+    public void GenerateData(IList<List<GameStats>> games,
+        ModeConfigurationModel modeConfiguration, PointDeductions pointDeductions,
+        string separator)
+    {
+        Logger.Debug($"Processing {modeConfiguration.Name} mode.");
+        var lastGame = StupidClone.PerformStupidClone(games.Last());
+        var teams = _temporaryTeamSpreadsheet.ProcessTemporaryTeams();
+        var tagGameProcessor = new TagGameProcessor();
+        tagGameProcessor.ProcessTagGame(lastGame, modeConfiguration, teams, pointDeductions, separator);
+        tagGameProcessor.GenerateTagSummaryData(games, modeConfiguration, teams, pointDeductions, separator);
+    }
+
+    private void GenerateTagSummaryData(IEnumerable<List<GameStats>> games,
         ModeConfigurationModel modeConfigurationModel, CustomTeams teams, PointDeductions pointDeductions,
         string separator)
     {
@@ -16,9 +36,9 @@ public class TagGameProcessor : GameProcessorBase
 
         processedGames = processedGames.GroupBy(x => x.TeamName).Select(g
             => ProcessSummaryTeamGroup(g, separator)).ToList();
-        processedGames.ForEach(g => g.CalculateKillScoreWithDeductions(modeConfigurationModel.KillMultiplier, 
+        processedGames.ForEach(g => g.CalculateKillScoreWithDeductions(modeConfigurationModel.KillMultiplier,
             pointDeductions.GetPlayerDeduction(g.PlayerName)));
-        
+
         processedGames = SortEntries(processedGames);
         Logger.Debug($"Got {processedGames.Count} entries for game summary");
 
@@ -27,11 +47,11 @@ public class TagGameProcessor : GameProcessorBase
         Logger.Info("Summary processing complete.");
     }
 
-    public void ProcessTagGame(List<GameStats> gameStatsList, ModeConfigurationModel modeConfigurationModel,
+    private void ProcessTagGame(List<GameStats> gameStatsList, ModeConfigurationModel modeConfigurationModel,
         CustomTeams teams, PointDeductions pointDeductions, string separator)
     {
         gameStatsList = ProcessSingleTagGame(gameStatsList, teams, modeConfigurationModel, separator);
-        gameStatsList.ForEach(g => g.CalculateKillScoreWithDeductions(modeConfigurationModel.KillMultiplier, 
+        gameStatsList.ForEach(g => g.CalculateKillScoreWithDeductions(modeConfigurationModel.KillMultiplier,
             pointDeductions.GetPlayerDeduction(g.PlayerName)));
 
         gameStatsList = SortEntries(gameStatsList);
@@ -39,16 +59,5 @@ public class TagGameProcessor : GameProcessorBase
         ImageDrawer.PopulateTeamTemplate(gameStatsList, modeConfigurationModel,
             modeConfigurationModel.TemplateConfiguration.LastGameSuffix);
         Logger.Info("Last game processing complete.");
-    }
-
-    private List<GameStats> ProcessSingleTagGame(List<GameStats> gameStatsList, CustomTeams teams, ModeConfigurationModel modeConfigurationModel, string separator)
-    {
-        gameStatsList.ForEach(r => r.TeamName = teams.GetPlayerTeam(r.PlayerName) ?? r.TeamName);
-        gameStatsList = gameStatsList.GroupBy(x => x.TeamName).Select(g => ProcessSingleGameTeamGroup(g, separator))
-            .ToList();
-        gameStatsList.ForEach(r => r.UpdateScoreWithPlacement(modeConfigurationModel.PlacementScoring));
-        Logger.Debug($"Got {gameStatsList.Count} entries for last game");
-
-        return gameStatsList;
     }
 }

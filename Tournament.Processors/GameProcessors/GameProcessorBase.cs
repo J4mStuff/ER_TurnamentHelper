@@ -1,3 +1,4 @@
+using Helpers;
 using Logger;
 using Models;
 
@@ -7,11 +8,13 @@ public class GameProcessorBase
 {
     protected readonly CustomLogger Logger;
     protected readonly ImageDrawer ImageDrawer;
+    protected readonly StupidClone StupidClone;
 
     protected GameProcessorBase()
     {
         Logger = new CustomLogger();
         ImageDrawer = new ImageDrawer();
+        StupidClone = new StupidClone();
     }
 
     protected List<GameStats> SortEntries(IEnumerable<GameStats> gameStatsList)
@@ -36,7 +39,6 @@ public class GameProcessorBase
 
         foreach (var item in temp.Skip(1))
         {
-            //main.FieldKills += item.FieldKills;
             main.ZoneKills += item.ZoneKills;
             main.Score += item.Score;
         }
@@ -117,5 +119,29 @@ public class GameProcessorBase
         Logger.Debug($"Player {main.PlayerName}'s stats are processed");
 
         return main;
+    }
+
+    protected List<GameStats> ProcessSingleTagGame(List<GameStats> gameStatsList, CustomTeams teams,
+        ModeConfigurationModel modeConfigurationModel, string separator)
+    {
+        gameStatsList.ForEach(r => r.TeamName = teams.GetPlayerTeam(r.PlayerName) ?? r.TeamName);
+        return ProcessSingleTeamGame(gameStatsList, modeConfigurationModel, separator);
+    }
+
+    protected List<GameStats> ProcessSingleTeamGame(List<GameStats> gameStatsList,
+        ModeConfigurationModel modeConfigurationModel, string separator)
+    {
+        gameStatsList = gameStatsList.GroupBy(x => x.TeamName).Select(g
+            => ProcessSingleGameTeamGroup(g, separator)).ToList();
+        return ProcessSingleGame(gameStatsList, modeConfigurationModel);
+    }
+
+    protected List<GameStats> ProcessSingleGame(List<GameStats> gameStatsList,
+        ModeConfigurationModel modeConfigurationModel)
+    {
+        gameStatsList.ForEach(r => r.UpdateScoreWithPlacement(modeConfigurationModel.PlacementScoring));
+        Logger.Debug($"Got {gameStatsList.Count} entries for last game");
+
+        return gameStatsList;
     }
 }
