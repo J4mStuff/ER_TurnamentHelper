@@ -38,6 +38,7 @@ public class TagGameProcessor : GameProcessorBase
             => ProcessSummaryTeamGroup(g, separator)).ToList();
         processedGames.ForEach(g => g.CalculateTeamKillScoreWithDeductions(modeConfigurationModel.KillMultiplier,
             pointDeductions.GetPlayerDeduction(g.PlayerName)));
+        processedGames.ForEach(g => g.PlayerName = string.Join(separator,teams.GetAllTeammates(g.TeamName)));
 
         processedGames = SortEntries(processedGames);
         Logger.Debug($"Got {processedGames.Count} entries for game summary");

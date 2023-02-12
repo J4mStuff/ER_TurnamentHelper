@@ -1,7 +1,8 @@
 {
     "GameFiles": [
         "game1.csv",
-        "game2.csv"
+        "game2.csv",
+        "game3.csv"
     ],
     "GameTypeSwitch": {
         "Solo": false,

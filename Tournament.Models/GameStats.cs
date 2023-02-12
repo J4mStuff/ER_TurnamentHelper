@@ -20,13 +20,11 @@ public class GameStats
 
     public void CalculateSoloKillScoreWithDeductions(KillMultiplierModel killMultipliers, int deductions)
     {
-        ZoneKills = SoloKills - FieldKills;
         Score += ZoneKills * killMultipliers.Zone + FieldKills * killMultipliers.Field - deductions;
     }
 
     public void CalculateTeamKillScoreWithDeductions(KillMultiplierModel killMultipliers, int deductions)
     {
-        ZoneKills = TeamKills - FieldKills;
         Score += ZoneKills * killMultipliers.Zone + FieldKills * killMultipliers.Field - deductions;
     }
 

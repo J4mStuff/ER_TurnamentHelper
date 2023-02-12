@@ -90,7 +90,7 @@ public class ImageDrawer
                     new PointF(columnData.NameField.XPosition, columnData.NameField.YPosition + multi));
             }
 
-            image = MutateImage(image, (stats.FieldKills + stats.ZoneKills).ToString(),
+            image = MutateImage(image, (stats.TeamKills).ToString(),
                 _customFonts.CreateFont(columnData.KillsField.FontSize), colour,
                 new PointF(columnData.KillsField.XPosition, columnData.KillsField.YPosition + multi));
             image = MutateImage(image, stats.Score.ToString(),

@@ -67,10 +67,9 @@ public class GameProcessorBase
 
         foreach (var item in temp.Skip(1))
         {
-            main.ZoneKills += item.ZoneKills;
             main.Score += item.Score;
         }
-
+        main.ZoneKills = main.TeamKills - main.FieldKills;
         main.PlayerList.AddRange(playersInGame);
         main.PlayerList = main.PlayerList.Distinct().ToList();
 
@@ -92,6 +91,7 @@ public class GameProcessorBase
         {
             main.FieldKills += item.FieldKills;
             main.ZoneKills += item.ZoneKills;
+            main.TeamKills += item.TeamKills;
             main.Score += item.Score;
             main.PlayerList.AddRange(item.PlayerList);
         }
