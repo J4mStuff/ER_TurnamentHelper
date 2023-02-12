@@ -1,9 +1,9 @@
-using System.Data;
-using System.Text.Json;
 using Configuration;
 using Enums;
+using Helpers;
 using Logger;
 using Models;
+using Workflow.GameProcessors;
 using Workflow.Spreadsheet;
 
 namespace Workflow;
@@ -17,6 +17,7 @@ public class TournamentLeaderBoardCreator
     private readonly ImageDrawer _imageDrawer;
     private readonly ConfigurationModel _configurationModel;
     private readonly CustomLogger _logger;
+    private readonly StupidClone _stupidClone;
 
     public TournamentLeaderBoardCreator(ConfigurationModel configurationModel)
     {
@@ -26,6 +27,7 @@ public class TournamentLeaderBoardCreator
         _pointDeductionSpreadsheet = new PointDeductionSpreadsheet();
         _imageDrawer = new ImageDrawer();
         _logger = new CustomLogger();
+        _stupidClone = new StupidClone();
     }
 
     public void GenerateData()
@@ -38,15 +40,16 @@ public class TournamentLeaderBoardCreator
 
             var allGames = _gameFileSpreadsheet.ProcessCsv(_configurationModel.GameFiles);
 
-            var lastGame = StupidClone(allGames.Last());
+            var lastGame = _stupidClone.PerformStupidClone(allGames.Last());
             var deductionList = _pointDeductionSpreadsheet.ProcessPointDeductions();
 
             switch (Enum.Parse(typeof(GameType), modeConfiguration.Name))
             {
                 case GameType.Solo: //TODO fix tag style
                     _logger.Debug($"Processing {GameType.Solo} mode.");
-                    ProcessSoloGame(lastGame, modeConfiguration, deductionList);
-                    GenerateSoloSummaryData(allGames, modeConfiguration, deductionList);
+                    var soloGameProcessor = new SoloGameProcessor();
+                    soloGameProcessor.ProcessSoloGame(lastGame, modeConfiguration, deductionList);
+                    soloGameProcessor.GenerateSoloSummaryData(allGames, modeConfiguration, deductionList);
                     break;
                 case GameType.Squad: //TODO fix tag style
                     _logger.Debug($"Processing {GameType.Squad} mode.");
@@ -64,27 +67,7 @@ public class TournamentLeaderBoardCreator
         }
     }
 
-    private T StupidClone<T>(T toClone) 
-    {
-        var str = JsonSerializer.Serialize(toClone);
-        var output = JsonSerializer.Deserialize<T>(str);
 
-        if (output != null) return output;
-        
-        const string message = "Tried to clone the object which resulted in a null exception";
-        _logger.Fatal(message);
-        throw new NoNullAllowedException(message);
-    }
-
-    private void ProcessSoloGame(List<GameStats> gameStatsList, ModeConfigurationModel modeConfigurationModel, PointDeductions pointDeductions)
-    {
-        gameStatsList.ForEach(r => r.CalculateScore(modeConfigurationModel.PlacementScoring, modeConfigurationModel.KillMultiplier, pointDeductions.GetPlayerDeduction(r.PlayerName)));
-        gameStatsList = SortEntries(gameStatsList);
-        _logger.Debug($"Got {gameStatsList.Count} entries for last game");
-        
-        _imageDrawer.PopulateSoloTemplate(gameStatsList, modeConfigurationModel, modeConfigurationModel.TemplateConfiguration.LastGameSuffix);
-        _logger.Info("Last game processing complete.");
-    }
     
     private void ProcessSquadGame(List<GameStats> gameStatsList, ModeConfigurationModel modeConfigurationModel, PointDeductions pointDeductions)
     {
@@ -111,23 +94,6 @@ public class TournamentLeaderBoardCreator
         _logger.Info("Last game processing complete.");
     }
 
-    private GameStats ProcessSoloGroup(IGrouping<string,GameStats> grouping)
-    {
-        var temp = grouping.Select(g => g).ToList();
-        _logger.Debug($"Got {temp.Count} player entries for {grouping.Key}");
-
-        var main = temp.First();
-        foreach (var item in temp.Skip(1))
-        {
-            main.FieldKills += item.FieldKills;
-            main.ZoneKills += item.ZoneKills;
-            main.Score += item.Score;
-        }
-        _logger.Debug($"Player {main.PlayerName}'s stats are processed");
-
-        return main;
-    }
-    
     private GameStats ProcessTeamGroup(IGrouping<string,GameStats> grouping)
     {
         var temp = grouping.Select(g => g).ToList();
@@ -208,20 +174,7 @@ public class TournamentLeaderBoardCreator
         return main;
     }
     
-    private void GenerateSoloSummaryData(IEnumerable<List<GameStats>> games, ModeConfigurationModel modeConfigurationModel, PointDeductions pointDeductions)
-    {
-        var entries = games.SelectMany(r => r).ToList();
-        entries.ForEach(r => r.CalculateScore(modeConfigurationModel.PlacementScoring, modeConfigurationModel.KillMultiplier, pointDeductions.GetPlayerDeduction(r.PlayerName)));
 
-        var gameStatsList = entries.GroupBy(x => x.PlayerName).Select(ProcessSoloGroup).ToList();
-        
-        gameStatsList = SortEntries(gameStatsList);
-        _logger.Debug($"Got {gameStatsList.Count} entries for game summary");
-
-        _imageDrawer.PopulateSoloTemplate(gameStatsList, modeConfigurationModel,
-            modeConfigurationModel.TemplateConfiguration.SummarySuffix);
-        _logger.Info("Summary processing complete.");
-    }
 
     private void GenerateTagSummaryData(IEnumerable<List<GameStats>> games, ModeConfigurationModel modeConfigurationModel, CustomTeams teams, PointDeductions pointDeductions)
     {
@@ -257,9 +210,5 @@ public class TournamentLeaderBoardCreator
         _logger.Info("Summary processing complete.");
     }
 
-    private List<GameStats> SortEntries(IEnumerable<GameStats> gameStatsList)
-    {
-        _logger.Debug("Sorting entries.");
-        return gameStatsList.OrderByDescending(r => r.Score).ThenByDescending(r => r.FieldKills).ToList();
-    }
+
 }

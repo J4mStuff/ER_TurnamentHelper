@@ -12,7 +12,7 @@ public class CustomLogger
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .WriteTo.Console(restrictedToMinimumLevel: consoleRestriction)
-            .WriteTo.File(Path.Combine("logs", "main.log"), rollingInterval: RollingInterval.Day)
+            .WriteTo.File(Path.Combine("logs", "main.log"), rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Debug)
             .CreateLogger();
     }
     

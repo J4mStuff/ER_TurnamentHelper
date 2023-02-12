@@ -18,10 +18,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Configuration\Configuration.csproj" />
-      <ProjectReference Include="..\Enums\Enums.csproj" />
-      <ProjectReference Include="..\Logger\Logger.csproj" />
-      <ProjectReference Include="..\Models\Models.csproj" />
+      <ProjectReference Include="..\Tournament.Configuration\Tournament.Configuration.csproj" />
+      <ProjectReference Include="..\Tournament.Enums\Tournament.Enums.csproj" />
+      <ProjectReference Include="..\Tournament.Helpers\Tournament.Helpers.csproj" />
+      <ProjectReference Include="..\Tournament.Logger\Tournament.Logger.csproj" />
+      <ProjectReference Include="..\Tournament.Models\Tournament.Models.csproj" />
     </ItemGroup>
 
 </Project>

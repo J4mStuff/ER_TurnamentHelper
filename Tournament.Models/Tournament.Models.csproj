@@ -4,6 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>Models</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -11,8 +12,8 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\Logger\Logger.csproj" />
-        <ProjectReference Include="..\Enums\Enums.csproj" />
+        <ProjectReference Include="..\Tournament.Logger\Tournament.Logger.csproj" />
+        <ProjectReference Include="..\Tournament.Enums\Tournament.Enums.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Logger</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DebugType>none</DebugType>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Serilog" Version="3.0.0-dev-01862" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00907" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
+    </ItemGroup>
+</Project>
