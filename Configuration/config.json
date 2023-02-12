@@ -1,0 +1,19 @@
+{
+    "GameFiles": [
+        "game1.csv",
+        "game2.csv"
+    ],
+    "GameTypeSwitch": {
+        "Solo": false,
+        "Squad": false,
+        "Tag": true
+    },
+    "ColumnIds": {
+        "PlacementColumn": 0,
+        "PlayerNameColumn": 3,
+        "TotalFieldKills": 7,
+        "SoloKillsColumn": 9,
+        "TeamNameColumn": 14
+    },
+    "PlayerSeparator": "|"
+}

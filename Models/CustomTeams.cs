@@ -14,7 +14,7 @@ public class CustomTeams
 
     public Dictionary<string, List<string>> Team { get; set; }
 
-    public string? GetPlayerTeam(string? player)
+    public string? GetPlayerTeam(string player)
     {
         var team = Team.FirstOrDefault(p => p.Value.Contains(player)).Key;
 

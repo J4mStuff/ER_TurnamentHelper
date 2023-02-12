@@ -1,0 +1,85 @@
+{
+  "Name": "Solo",
+  "FontName": "default_uwu.ttf",
+  "FontColour": {
+    "R": 255,
+    "G": 255,
+    "B": 255
+  },
+  "TemplateConfiguration": {
+    "TemplateFileName": "soloTemplate.png",
+    "LastGameSuffix": "_lastMatch",
+    "SummarySuffix": "_summary",
+    "NewLineDistance": 69,
+    "Columns": [
+      {
+        "TeamNameField": {
+          "XPosition": 430,
+          "YPosition": 210,
+          "FontSize": 35
+        },
+        "NameField": {
+          "XPosition": 430,
+          "YPosition": 245,
+          "FontSize": 35
+        },
+        "KillsField": {
+          "XPosition": 760,
+          "YPosition": 210,
+          "FontSize": 35
+        },
+        "ScoreField": {
+          "XPosition": 880,
+          "YPosition": 210,
+          "FontSize": 35
+        }
+      },
+      {
+        "TeamNameField": {
+          "XPosition": 430,
+          "YPosition": 210,
+          "FontSize": 35
+        },
+        "NameField": {
+          "XPosition": 1050,
+          "YPosition": 245,
+          "FontSize": 35
+        },
+        "KillsField": {
+          "XPosition": 1445,
+          "YPosition": 210,
+          "FontSize": 35
+        },
+        "ScoreField": {
+          "XPosition": 1555,
+          "YPosition": 210,
+          "FontSize": 35
+        }
+      }
+    ]
+  },
+  "KillMultiplier": {
+    "Field": 4,
+    "Zone": 2
+  },
+  "PlacementScoring": {
+    "1": 16,
+    "2": 12,
+    "3": 10,
+    "4": 8,
+    "5": 8,
+    "6": 5,
+    "7": 5,
+    "8": 5,
+    "9": 3,
+    "10": 3,
+    "11": 3,
+    "12": 3,
+    "13": 1,
+    "14": 1,
+    "15": 1,
+    "16": 1,
+    "17": 0,
+    "18": 0
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "Name": "Squad",
+  "FontName": "default_uwu.ttf",
+  "FontColour": {
+    "R": 255,
+    "G": 255,
+    "B": 255
+  },
+  "TemplateConfiguration": {
+    "TemplateFileName": "squadTemplate.png",
+    "LastGameSuffix": "_lastMatch",
+    "SummarySuffix": "_summary",
+    "NewLineDistance": 50,
+    "Columns": [
+      {
+        "TeamNameField": {
+          "XPosition": 430,
+          "YPosition": 210,
+          "FontSize": 35
+        },
+        "NameField": {
+          "XPosition": 430,
+          "YPosition": 245,
+          "FontSize": 20
+        },
+        "KillsField": {
+          "XPosition": 760,
+          "YPosition": 210,
+          "FontSize": 35
+        },
+        "ScoreField": {
+          "XPosition": 880,
+          "YPosition": 210,
+          "FontSize": 35
+        }
+      }
+    ]
+  },
+  "KillMultiplier": {
+    "Field": 4,
+    "Zone": 2
+  },
+  "PlacementScoring": {
+    "1": 6,
+    "2": 5,
+    "3": 4,
+    "4": 3,
+    "5": 2,
+    "6": 1
+  }
+}

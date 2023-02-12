@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration", "Configuration\Configuration.csproj", "{2003B288-54E5-45B3-A10B-88378961C99E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workflow", "Workflow\Workflow.csproj", "{2AA62152-4600-4401-B0DB-DA017BACFBC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Processors", "Processors\Processors.csproj", "{2AA62152-4600-4401-B0DB-DA017BACFBC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{D1191693-813A-4434-8B12-3941F1BA3398}"
 EndProject

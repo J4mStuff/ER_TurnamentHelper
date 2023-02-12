@@ -6,9 +6,9 @@ using Enums;
 
 namespace Models;
 
-public class ModeConfiguration
+public class ModeConfigurationModel
 {
-    public ModeConfiguration()
+    public ModeConfigurationModel()
     {
         Name = string.Empty;
         FontName = string.Empty;

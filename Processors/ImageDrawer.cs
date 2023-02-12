@@ -13,7 +13,7 @@ public class ImageDrawer
     private FontFamily _customFonts;
     private const string OutputDirectory = "leaderboards";
 
-    public void PopulateSoloTemplate(List<GameStats> statsList, ModeConfiguration config, string suffix)
+    public void PopulateSoloTemplate(List<GameStats> statsList, ModeConfigurationModel config, string suffix)
     {
         Log.Debug("Populating Solo Template");
         var fonts = new FontCollection();
@@ -22,7 +22,7 @@ public class ImageDrawer
         DrawStats(config, statsList, $"{config.Name}{suffix}", false);
     }
     
-    public void PopulateTeamTemplate(List<GameStats> statsList, ModeConfiguration config, string suffix)
+    public void PopulateTeamTemplate(List<GameStats> statsList, ModeConfigurationModel config, string suffix)
     {
         Log.Debug("Populating Solo Template");
         var fonts = new FontCollection();
@@ -32,7 +32,7 @@ public class ImageDrawer
     }
 
 
-    private void DrawStats(ModeConfiguration config, IReadOnlyCollection<GameStats> statsList, string outFileName, bool teamMode)
+    private void DrawStats(ModeConfigurationModel config, IReadOnlyCollection<GameStats> statsList, string outFileName, bool teamMode)
     {
         var image = Image.Load(Path.Combine("assets", config.TemplateConfiguration.TemplateFileName));
         Log.Debug($"Loading image: {config.TemplateConfiguration.TemplateFileName}");
@@ -55,7 +55,7 @@ public class ImageDrawer
         Log.Information($"Processing of image {outputImagePath} completed.");
     }
 
-    private Image? MutateImage(Image? image, ModeConfiguration config, ColumnData columnData, List<GameStats> statsList, bool teamMode)
+    private Image? MutateImage(Image? image, ModeConfigurationModel config, ColumnData columnData, List<GameStats> statsList, bool teamMode)
     {
         var colour = Color.FromRgb(config.FontColour[ColourCodes.R], config.FontColour[ColourCodes.G], config.FontColour[ColourCodes.B]);
         var multiplier = 1;
