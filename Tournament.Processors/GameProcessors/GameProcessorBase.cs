@@ -51,7 +51,7 @@ public class GameProcessorBase
         return main;
     }
 
-    protected GameStats ProcessSingleGameTeamGroup(IGrouping<string, GameStats> grouping, string separator)
+    private GameStats ProcessSingleGameTeamGroup(IGrouping<string, GameStats> grouping, string separator)
     {
         var temp = grouping.Select(g => g).ToList();
         var playersInGame = temp.Select(p => p.PlayerName).Distinct().ToList();

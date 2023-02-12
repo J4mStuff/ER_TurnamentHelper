@@ -14,24 +14,24 @@
     "Columns": [
       {
         "TeamNameField": {
-          "XPosition": 410,
-          "YPosition": 207,
-          "FontSize": 31
+          "XPosition": 733,
+          "YPosition": 230,
+          "FontSize": 30
         },
         "NameField": {
-          "XPosition": 410,
-          "YPosition": 242,
+          "XPosition": 733,
+          "YPosition": 260,
           "FontSize": 14
         },
         "KillsField": {
-          "XPosition": 790,
-          "YPosition": 210,
-          "FontSize": 40
+          "XPosition": 1095,
+          "YPosition": 233,
+          "FontSize": 38
         },
         "ScoreField": {
-          "XPosition": 888,
-          "YPosition": 210,
-          "FontSize": 40
+          "XPosition": 1193,
+          "YPosition": 233,
+          "FontSize": 38
         }
       }
     ]

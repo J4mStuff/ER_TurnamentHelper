@@ -24,7 +24,7 @@ public class SoloGameProcessor : GameProcessorBase
             processedGames.AddRange(ProcessSingleGame(game, modeConfigurationModel));
         }
         
-        processedGames.ForEach(g => g.CalculateKillScoreWithDeductions(modeConfigurationModel.KillMultiplier, 
+        processedGames.ForEach(g => g.CalculateSoloKillScoreWithDeductions(modeConfigurationModel.KillMultiplier, 
             pointDeductions.GetPlayerDeduction(g.PlayerName)));
         
         processedGames = SortEntries(processedGames);
@@ -39,7 +39,7 @@ public class SoloGameProcessor : GameProcessorBase
         PointDeductions pointDeductions)
     {
         gameStatsList = ProcessSingleGame(gameStatsList, modeConfigurationModel);
-        gameStatsList.ForEach(g => g.CalculateKillScoreWithDeductions(modeConfigurationModel.KillMultiplier, 
+        gameStatsList.ForEach(g => g.CalculateSoloKillScoreWithDeductions(modeConfigurationModel.KillMultiplier, 
             pointDeductions.GetPlayerDeduction(g.PlayerName)));
 
         gameStatsList = SortEntries(gameStatsList);

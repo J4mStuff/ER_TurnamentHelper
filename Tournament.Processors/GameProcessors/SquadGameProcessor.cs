@@ -26,7 +26,7 @@ public class SquadGameProcessor : GameProcessorBase
             
         processedGames = processedGames.GroupBy(x => x.TeamName).Select(g
             => ProcessSummaryTeamGroup(g, separator)).ToList();
-        processedGames.ForEach(g => g.CalculateKillScoreWithDeductions(modeConfigurationModel.KillMultiplier, 
+        processedGames.ForEach(g => g.CalculateTeamKillScoreWithDeductions(modeConfigurationModel.KillMultiplier, 
             pointDeductions.GetPlayerDeduction(g.PlayerName)));
         
         processedGames = SortEntries(processedGames);
@@ -41,7 +41,7 @@ public class SquadGameProcessor : GameProcessorBase
         PointDeductions pointDeductions, string separator)
     {
         gameStatsList = ProcessSingleTeamGame(gameStatsList, modeConfigurationModel, separator);
-        gameStatsList.ForEach(g => g.CalculateKillScoreWithDeductions(modeConfigurationModel.KillMultiplier, 
+        gameStatsList.ForEach(g => g.CalculateTeamKillScoreWithDeductions(modeConfigurationModel.KillMultiplier, 
             pointDeductions.GetPlayerDeduction(g.PlayerName)));
 
         gameStatsList = SortEntries(gameStatsList);

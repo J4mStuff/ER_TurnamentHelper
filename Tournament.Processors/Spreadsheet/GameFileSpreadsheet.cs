@@ -31,17 +31,19 @@ public class GameFileSpreadsheet : SpreadsheetBase
         var placement = int.Parse(fields[_fieldIds.PlacementColumn]);
         var name = fields[_fieldIds.PlayerNameColumn].ToUpper().Trim();
         var fieldKills = int.Parse(fields[_fieldIds.TotalFieldKills]);
-        var zoneKills = int.Parse(fields[_fieldIds.SoloKillsColumn]);
+        var soloKills = int.Parse(fields[_fieldIds.SoloKillsColumn]);
+        var teamKills = int.Parse(fields[_fieldIds.TeamKillsColumn]);
         var teamName = fields.Length > _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn].ToUpper().Trim() : "N/A";
         
-        Logger.Debug($"New entry: {placement}, {name}, {teamName}, {fieldKills}, {zoneKills}");
+        Logger.Debug($"New entry: {placement}, {name}, {teamName}, {fieldKills}, {soloKills}, {teamKills}");
 
         return new GameStats
         {
             FieldKills = fieldKills,
             PlayerName = name,
             TeamName = teamName,
-            ZoneKills = zoneKills,
+            SoloKills = soloKills,
+            TeamKills = teamKills,
             Placements = placement
         };
     }

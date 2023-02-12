@@ -36,7 +36,7 @@ public class TagGameProcessor : GameProcessorBase
 
         processedGames = processedGames.GroupBy(x => x.TeamName).Select(g
             => ProcessSummaryTeamGroup(g, separator)).ToList();
-        processedGames.ForEach(g => g.CalculateKillScoreWithDeductions(modeConfigurationModel.KillMultiplier,
+        processedGames.ForEach(g => g.CalculateTeamKillScoreWithDeductions(modeConfigurationModel.KillMultiplier,
             pointDeductions.GetPlayerDeduction(g.PlayerName)));
 
         processedGames = SortEntries(processedGames);
@@ -51,7 +51,7 @@ public class TagGameProcessor : GameProcessorBase
         CustomTeams teams, PointDeductions pointDeductions, string separator)
     {
         gameStatsList = ProcessSingleTagGame(gameStatsList, teams, modeConfigurationModel, separator);
-        gameStatsList.ForEach(g => g.CalculateKillScoreWithDeductions(modeConfigurationModel.KillMultiplier,
+        gameStatsList.ForEach(g => g.CalculateTeamKillScoreWithDeductions(modeConfigurationModel.KillMultiplier,
             pointDeductions.GetPlayerDeduction(g.PlayerName)));
 
         gameStatsList = SortEntries(gameStatsList);

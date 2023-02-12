@@ -16,12 +16,17 @@ public class GameStats
     public void UpdateScoreWithPlacement(Dictionary<string, int> placementScoring)
     {
         Score = placementScoring[Placements.ToString()];
-
     }
 
-    public void CalculateKillScoreWithDeductions(KillMultiplierModel killMultipliers, int deductions)
+    public void CalculateSoloKillScoreWithDeductions(KillMultiplierModel killMultipliers, int deductions)
     {
-        ZoneKills -= FieldKills;
+        ZoneKills = SoloKills - FieldKills;
+        Score += ZoneKills * killMultipliers.Zone + FieldKills * killMultipliers.Field - deductions;
+    }
+
+    public void CalculateTeamKillScoreWithDeductions(KillMultiplierModel killMultipliers, int deductions)
+    {
+        ZoneKills = TeamKills - FieldKills;
         Score += ZoneKills * killMultipliers.Zone + FieldKills * killMultipliers.Field - deductions;
     }
 
@@ -31,5 +36,7 @@ public class GameStats
     public string TeamName { get; set; }
     public int ZoneKills { get; set; }
     public int FieldKills { get; set; }
+    public int SoloKills { get; set; }
+    public int TeamKills { get; set; }
     public List<string> PlayerList { get; set; }
 }
