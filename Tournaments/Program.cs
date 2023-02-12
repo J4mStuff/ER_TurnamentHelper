@@ -9,7 +9,7 @@ public static class Program
     {
         var configManager = new ConfigManager();
         var configuration = configManager.ReadMainConfig();
-        
+
         var tournamentLeaderboardCalculator = new TournamentLeaderBoardCreator(configuration);
         tournamentLeaderboardCalculator.GenerateData();
     }

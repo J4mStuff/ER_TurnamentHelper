@@ -19,11 +19,11 @@ public class CustomTeams
         var team = Team.FirstOrDefault(p => p.Value.Contains(player)).Key;
 
         if (!string.IsNullOrEmpty(team)) return team;
-        
+
         _logger.Warning($"No team entry for {player}");
         return null;
     }
-    
+
     public IEnumerable<string> GetAllTeammates(string team)
     {
         var players = Team.FirstOrDefault(p => p.Key == team).Value;

@@ -17,7 +17,7 @@ public class PointDeductions
     public int GetPlayerDeduction(string player)
     {
         var playerPunishment = PunishmentList.FirstOrDefault(p => p.Key.Contains(player)).Value;
-        
+
         _logger.Debug($"Deduction for player '{player}': '{playerPunishment}'");
 
         return playerPunishment;

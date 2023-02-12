@@ -15,10 +15,10 @@ public class ConfigManager
     }
 
     public ConfigurationModel ReadMainConfig()
-    { 
+    {
         return GetConfig<ConfigurationModel>("config.json");
     }
-    
+
     public ModeConfigurationModel ReadModeConfig(string name)
     {
         var path = Path.Combine("modes", $"{name.ToLower()}.json");
@@ -37,7 +37,7 @@ public class ConfigManager
             _logger.Fatal($"Failed to retrieve configuration '{fileName}' with exception: {ex.Message}");
             throw;
         }
-        
+
         _logger.Debug($"Retrieved configuration file '{fileName}'.");
 
         var model = JsonSerializer.Deserialize<T>(configString) ??

@@ -16,6 +16,7 @@ public class TemplateConfigurationModel
     public string LastGameSuffix { get; set; }
     public string SummarySuffix { get; set; }
     public int NewLineDistance { get; set; }
+
     // ReSharper disable once CollectionNeverUpdated.Global
     public List<ColumnData> Columns { get; set; }
 }

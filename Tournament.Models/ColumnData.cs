@@ -10,7 +10,7 @@ public class ColumnData
         KillsField = new FieldData();
         ScoreField = new FieldData();
     }
-    
+
     public FieldData NameField { get; set; }
     public FieldData TeamNameField { get; set; }
     public FieldData KillsField { get; set; }

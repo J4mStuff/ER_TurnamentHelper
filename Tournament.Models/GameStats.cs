@@ -13,9 +13,10 @@ public class GameStats
         PlayerList = new List<string>();
     }
 
-    public void CalculateScore(Dictionary<string,int> placementScoring, KillMultiplierModel killMultipliers, int deductions)
+    public void CalculateScore(Dictionary<string, int> placementScoring, KillMultiplierModel killMultipliers,
+        int deductions)
     {
-        Score = 
+        Score =
             ZoneKills * killMultipliers.Zone
             + FieldKills * killMultipliers.Field
             + placementScoring[Placements.ToString()]

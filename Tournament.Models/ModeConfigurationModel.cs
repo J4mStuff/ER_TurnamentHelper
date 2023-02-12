@@ -20,6 +20,7 @@ public class ModeConfigurationModel
 
     public string Name { get; set; }
     public string FontName { get; set; }
+
     // ReSharper disable once CollectionNeverUpdated.Global
     public Dictionary<ColourCodes, byte> FontColour { get; set; }
     public TemplateConfigurationModel TemplateConfiguration { get; set; }
