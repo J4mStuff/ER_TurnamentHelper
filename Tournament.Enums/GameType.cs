@@ -4,5 +4,6 @@ public enum GameType
 {
     Solo,
     Squad,
-    Tag
+    Tag,
+    TagDuo
 }

@@ -43,7 +43,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Tournament.Configuration\Tournament.Configuration.csproj" />
-        <ProjectReference Include="..\Configuration\Configuration.csproj" />
         <ProjectReference Include="..\Tournament.Logger\Tournament.Logger.csproj" />
         <ProjectReference Include="..\Tournament.Processors\Tournament.Processors.csproj" />
     </ItemGroup>

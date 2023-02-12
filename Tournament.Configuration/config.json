@@ -6,7 +6,8 @@
     "GameTypeSwitch": {
         "Solo": false,
         "Squad": false,
-        "Tag": true
+        "Tag": false,
+        "TagDuo": true
     },
     "ColumnIds": {
         "PlacementColumn": 0,

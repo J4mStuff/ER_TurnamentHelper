@@ -12,7 +12,6 @@ public class GameProcessorBase
     {
         Logger = new CustomLogger();
         ImageDrawer = new ImageDrawer();
-
     }
 
     protected List<GameStats> SortEntries(IEnumerable<GameStats> gameStatsList)
@@ -37,7 +36,7 @@ public class GameProcessorBase
 
         foreach (var item in temp.Skip(1))
         {
-            main.FieldKills += item.FieldKills;
+            //main.FieldKills += item.FieldKills;
             main.ZoneKills += item.ZoneKills;
             main.Score += item.Score;
         }
@@ -50,7 +49,7 @@ public class GameProcessorBase
         return main;
     }
 
-    protected GameStats ProcessLastGameTeamGroup(IGrouping<string, GameStats> grouping, string separator)
+    protected GameStats ProcessSingleGameTeamGroup(IGrouping<string, GameStats> grouping, string separator)
     {
         var temp = grouping.Select(g => g).ToList();
         var playersInGame = temp.Select(p => p.PlayerName).Distinct().ToList();
@@ -66,7 +65,6 @@ public class GameProcessorBase
 
         foreach (var item in temp.Skip(1))
         {
-            main.FieldKills += item.FieldKills;
             main.ZoneKills += item.ZoneKills;
             main.Score += item.Score;
         }
@@ -111,7 +109,7 @@ public class GameProcessorBase
         var main = temp.First();
         foreach (var item in temp.Skip(1))
         {
-            main.FieldKills += item.FieldKills;
+            //main.FieldKills += item.FieldKills;
             main.ZoneKills += item.ZoneKills;
             main.Score += item.Score;
         }

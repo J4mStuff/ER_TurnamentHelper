@@ -13,14 +13,16 @@ public class GameStats
         PlayerList = new List<string>();
     }
 
-    public void CalculateScore(Dictionary<string, int> placementScoring, KillMultiplierModel killMultipliers,
-        int deductions)
+    public void UpdateScoreWithPlacement(Dictionary<string, int> placementScoring)
     {
-        Score =
-            ZoneKills * killMultipliers.Zone
-            + FieldKills * killMultipliers.Field
-            + placementScoring[Placements.ToString()]
-            - deductions;
+        Score = placementScoring[Placements.ToString()];
+
+    }
+
+    public void CalculateKillScoreWithDeductions(KillMultiplierModel killMultipliers, int deductions)
+    {
+        ZoneKills -= FieldKills;
+        Score += ZoneKills * killMultipliers.Zone + FieldKills * killMultipliers.Field - deductions;
     }
 
     public int Score { get; set; }

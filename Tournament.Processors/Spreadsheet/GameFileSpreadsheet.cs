@@ -15,7 +15,6 @@ public class GameFileSpreadsheet : SpreadsheetBase
     public List<List<GameStats>> ProcessCsv(IEnumerable<string> fileNames)
     {
         return (from fileName in fileNames
-            //let executableLocation = Directory.GetCurrentDirectory()
             select Debugger.IsAttached
                 ? $"../../../Stubs/{fileName}"
                 : fileName
@@ -32,7 +31,7 @@ public class GameFileSpreadsheet : SpreadsheetBase
         var placement = int.Parse(fields[_fieldIds.PlacementColumn]);
         var name = fields[_fieldIds.PlayerNameColumn].ToUpper().Trim();
         var fieldKills = int.Parse(fields[_fieldIds.TotalFieldKills]);
-        var zoneKills = int.Parse(fields[_fieldIds.SoloKillsColumn]) - fieldKills;
+        var zoneKills = int.Parse(fields[_fieldIds.SoloKillsColumn]);
         var teamName = fields.Length > _fieldIds.TeamNameColumn ? fields[_fieldIds.TeamNameColumn].ToUpper().Trim() : "N/A";
         
         Logger.Debug($"New entry: {placement}, {name}, {teamName}, {fieldKills}, {zoneKills}");

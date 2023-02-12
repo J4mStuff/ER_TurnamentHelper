@@ -44,19 +44,20 @@ public class TournamentLeaderBoardCreator
             switch (Enum.Parse(typeof(GameType), modeConfiguration.Name))
             {
                 case GameType.Solo: //TODO fix tag style
-                    _logger.Debug($"Processing {GameType.Solo} mode.");
+                    _logger.Debug($"Processing {modeConfiguration.Name} mode.");
                     var soloGameProcessor = new SoloGameProcessor();
                     soloGameProcessor.ProcessSoloGame(lastGame, modeConfiguration, deductionList);
                     soloGameProcessor.GenerateSoloSummaryData(allGames, modeConfiguration, deductionList);
                     break;
                 case GameType.Squad: //TODO fix tag style
-                    _logger.Debug($"Processing {GameType.Squad} mode.");
+                    _logger.Debug($"Processing {modeConfiguration.Name} mode.");
                     var squadGameProcessor = new SquadGameProcessor();
                     squadGameProcessor.ProcessSquadGame(lastGame, modeConfiguration, deductionList);
                     squadGameProcessor.GenerateSquadSummaryData(allGames, modeConfiguration, deductionList);
                     break;
                 case GameType.Tag:
-                    _logger.Debug($"Processing {GameType.Tag} mode.");
+                case GameType.TagDuo:
+                    _logger.Debug($"Processing {modeConfiguration.Name} mode.");
                     var teams = _temporaryTeamSpreadsheet.ProcessTemporaryTeams();
                     var tagGameProcessor = new TagGameProcessor();
                     tagGameProcessor.ProcessTagGame(lastGame, modeConfiguration, teams, deductionList,
