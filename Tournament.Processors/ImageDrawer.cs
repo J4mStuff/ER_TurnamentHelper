@@ -14,9 +14,9 @@ public class ImageDrawer
     private const string OutputDirectory = "leaderboards";
     private readonly CustomLogger _logger;
 
-    public ImageDrawer()
+    public ImageDrawer(CustomLogger logger)
     {
-        _logger = new CustomLogger();
+        _logger = logger;
     }
 
     public void PopulateSoloTemplate(List<GameStats> statsList, ModeConfigurationModel config, string suffix)

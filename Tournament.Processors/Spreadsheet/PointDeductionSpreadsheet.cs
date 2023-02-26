@@ -1,9 +1,14 @@
+using Logger;
 using Models;
 
 namespace Workflow.Spreadsheet;
 
 public class PointDeductionSpreadsheet : SpreadsheetBase
 {
+    public PointDeductionSpreadsheet(CustomLogger logger) : base(logger)
+    {
+    }
+    
     public PointDeductions ProcessPointDeductions()
     {
         var csvLocation = Path.Combine("assets", "playerDeductions.csv");
@@ -13,7 +18,7 @@ public class PointDeductionSpreadsheet : SpreadsheetBase
         
         Logger.Info($"Deductions parsed.");
 
-        var dict = new PointDeductions();
+        var dict = new PointDeductions(Logger);
         foreach (var item in list)
         {
             if (dict.PunishmentList.Keys.Contains(item.Key))

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Logger;
 using Models;
 
 namespace Workflow.Spreadsheet;
@@ -7,7 +8,7 @@ public class GameFileSpreadsheet : SpreadsheetBase
 {
     private readonly GameFieldIds _fieldIds;
 
-    public GameFileSpreadsheet(GameFieldIds fieldIds)
+    public GameFileSpreadsheet(GameFieldIds fieldIds, CustomLogger logger) : base(logger)
     {
         _fieldIds = fieldIds;
     }

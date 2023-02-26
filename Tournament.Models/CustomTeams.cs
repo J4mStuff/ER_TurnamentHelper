@@ -6,10 +6,10 @@ public class CustomTeams
 {
     private readonly CustomLogger _logger;
 
-    public CustomTeams()
+    public CustomTeams(CustomLogger logger)
     {
         Team = new Dictionary<string, List<string>>();
-        _logger = new CustomLogger();
+        _logger = logger;
     }
 
     public Dictionary<string, List<string>> Team { get; set; }

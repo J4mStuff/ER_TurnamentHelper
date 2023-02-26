@@ -1,14 +1,12 @@
 {
     "GameFiles": [
-        "game1.csv",
-        "game2.csv",
-        "game3.csv"
+        "game1.csv"
     ],
     "GameTypeSwitch": {
         "Solo": false,
         "Squad": false,
-        "Tag": false,
-        "TagDuo": true
+        "Tag": true,
+        "TagDuo": false
     },
     "ColumnIds": {
         "PlacementColumn": 0,

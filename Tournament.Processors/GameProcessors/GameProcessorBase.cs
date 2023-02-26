@@ -10,11 +10,11 @@ public class GameProcessorBase
     protected readonly ImageDrawer ImageDrawer;
     protected readonly StupidClone StupidClone;
 
-    protected GameProcessorBase()
+    protected GameProcessorBase(CustomLogger logger)
     {
-        Logger = new CustomLogger();
-        ImageDrawer = new ImageDrawer();
-        StupidClone = new StupidClone();
+        Logger = logger;
+        ImageDrawer = new ImageDrawer(logger);
+        StupidClone = new StupidClone(logger);
     }
 
     protected List<GameStats> SortEntries(IEnumerable<GameStats> gameStatsList)

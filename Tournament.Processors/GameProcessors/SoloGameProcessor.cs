@@ -1,11 +1,16 @@
+using Logger;
 using Models;
 
 namespace Workflow.GameProcessors;
 
 public class SoloGameProcessor : GameProcessorBase
 {
-    public void GenerateData(IList<List<GameStats>> games,
-        ModeConfigurationModel modeConfiguration, PointDeductions pointDeductions,
+    public SoloGameProcessor(CustomLogger logger) : base(logger) { }
+    
+    public void GenerateData(
+        IList<List<GameStats>> games,
+        ModeConfigurationModel modeConfiguration, 
+        PointDeductions pointDeductions,
         string separator)
     {
         Logger.Debug($"Processing {modeConfiguration.Name} mode.");
@@ -48,4 +53,6 @@ public class SoloGameProcessor : GameProcessorBase
             modeConfigurationModel.TemplateConfiguration.LastGameSuffix);
         Logger.Info("Last game processing complete.");
     }
+
+
 }

@@ -1,19 +1,19 @@
-rank,level,character,nickname,weapon,best weapon mastery,best weapon mastery level,total field kill,team kill,kill,assist,hunting,killer,gameId,teamName
-1,16,Tia,Peleg,마법봉,Bat,16,12,16,9,6,17,,23175898,BapBap Enjoyers
-1,17,Yuki,SmugDragon,간장과막야,DualSword,17,12,16,7,7,26,,23175898,BapBap Enjoyers
-2,17,Eva,Meochi,루테늄구슬,HighAngleFire,17,3,4,0,4,35,SmugDragon,23175898,2Cuties&Meochi
-2,17,Luke,Aghirat,타구봉,Bat,15,3,4,4,0,23,SmugDragon,23175898,2Cuties&Meochi
-3,14,Nicky,MajinTenshinhan,프로스트팽,Glove,12,0,3,1,1,16,Allamand,23175898,Chill Boomer Squad
-3,17,Echion,Bobou,데스애더퀸-MT,VFArm,17,0,3,2,1,58,Aghirat,23175898,Chill Boomer Squad
-4,15,Cathy,Allamand,로이거 차르,DualSword,13,3,5,2,3,12,Peleg,23175898,Anti-Squads Squad
-4,16,Bernice,ImpVivi,폴라리스,SniperRifle,16,3,5,3,2,34,Peleg,23175898,Anti-Squads Squad
-5,16,Haze,NyarkoO,골드러시,AssaultRifle,15,1,4,2,2,38,SmugDragon,23175898,Rainbow+
-5,16,Hyunwoo,RainyTheExile,흑요석짓테,Tonfa,16,1,4,2,0,30,SmugDragon,23175898,Rainbow+
-6,16,Sua,Baumi69,개밥바라기,Hammer,15,2,2,1,1,25,Peleg,23175898,cat go brr
-6,15,Tia,Leeaf,마법봉,Bat,13,2,2,1,0,19,Peleg,23175898,cat go brr
-7,14,Rozzi,Dooming,일렉트론블라스터,Pistol,12,1,1,1,0,20,Peleg,23175898,Doomed Yugioh Chads
-7,15,Tia,chandrei03,마법봉,Bat,12,1,1,0,0,34,Aghirat,23175898,Doomed Yugioh Chads
-8,9,Theodore,VaI,가우스라이플,SniperRifle,7,1,1,0,1,3,SmugDragon,23175898,Nerf Sissela
-8,11,Eva,Trick,루테늄구슬,HighAngleFire,10,1,1,1,0,15,SmugDragon,23175898,Nerf Sissela
-9,8,Theodore,haizu,가우스라이플,SniperRifle,5,0,0,0,0,8,Baumi69,23175898,HOP in my dms
-9,9,Yuki,Prinzessin,디오스쿠로이,DualSword,6,0,0,0,0,16,Baumi69,23175898,HOP in my dms
+rank, level, character, nickname, weapon, best weapon mastery, best weapon mastery level, total field kill, team kill, kill, assist, hunting, killer, gameId, teamName
+1,16, Tia,MajinTenshinhan, 마법봉, Bat,16,12,12,9,6,17, ,23175898,
+2,17, Yuki,FDGood, 간장과막야, DualSword,17,12,12,7,7,26, ,23175898,
+3,17, Eva,Trick, 루테늄구슬, HighAngleFire,17,3,4,0,4,35, SmugDragon,23175898,
+4,17, Luke,Meochi, 타구봉, Bat,15,3,4,4,0,23, SmugDragon,23175898,
+5,14, Nicky,BestValezi, 프로스트팽, Glove,12,0,3,1,1,16, Allamand,23175898,
+6,17, Echion,Yujio, 데스애더퀸-MT, VFArm,17,0,3,2,1,58, Aghirat,23175898,
+7,15, Cathy,NyarkoO, 로이거 차르, DualSword,13,3,5,2,3,12, Peleg,23175898,
+8,16, Bernice,Connax, 폴라리스, SniperRifle,16,3,5,3,2,34, Peleg,23175898,
+9,16, Haze,elllort92, 골드러시, AssaultRifle,15,1,4,2,2,38, SmugDragon,23175898,
+10,16, Hyunwoo,DepravedLunatic, 흑요석짓테, Tonfa,16,1,4,2,0,30, SmugDragon,23175898,
+11,16, Sua,Uvabu, 개밥바라기, Hammer,15,2,2,1,1,25, Peleg,23175898,
+12,15, Tia,yakushe, 마법봉, Bat,13,2,2,1,0,19, Peleg,23175898,
+13,14, Rozzi,metalieme, 일렉트론블라스터, Pistol,12,1,1,1,0,20, Peleg,23175898,
+14,15, Tia,Lucanidae, 마법봉, Bat,12,1,1,0,0,34, Aghirat,23175898,
+15,9, Theodore,Leeaf, 가우스라이플, SniperRifle,7,1,1,0,1,3, SmugDragon,23175898,
+16,11, Eva,Breeves, 루테늄구슬, HighAngleFire,10,1,1,1,0,15, SmugDragon,23175898,
+17,8, Theodore,Haizu, 가우스라이플, SniperRifle,5,0,0,0,0,8, Baumi69,23175898,
+18,8, Theodore,rinz, 가우스라이플, SniperRifle,5,0,0,0,0,8, Baumi69,23175898,

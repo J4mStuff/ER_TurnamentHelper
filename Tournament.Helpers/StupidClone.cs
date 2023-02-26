@@ -8,9 +8,9 @@ public class StupidClone
 {
     private readonly CustomLogger _logger;
 
-    public StupidClone()
+    public StupidClone(CustomLogger logger)
     {
-        _logger = new CustomLogger();
+        _logger = logger;
     }
 
     public T PerformStupidClone<T>(T toClone)

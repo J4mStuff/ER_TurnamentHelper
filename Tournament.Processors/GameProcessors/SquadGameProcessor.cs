@@ -1,9 +1,12 @@
+using Logger;
 using Models;
 
 namespace Workflow.GameProcessors;
 
 public class SquadGameProcessor : GameProcessorBase
 {
+    public SquadGameProcessor(CustomLogger logger) : base(logger) { }
+
     public void GenerateData(IList<List<GameStats>> games,
         ModeConfigurationModel modeConfiguration, PointDeductions pointDeductions,
         string separator)

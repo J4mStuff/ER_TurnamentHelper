@@ -6,10 +6,10 @@ public class PointDeductions
 {
     private readonly CustomLogger _logger;
 
-    public PointDeductions()
+    public PointDeductions(CustomLogger logger)
     {
         PunishmentList = new Dictionary<string, int>();
-        _logger = new CustomLogger();
+        _logger = logger;
     }
 
     public Dictionary<string, int> PunishmentList { get; set; }

@@ -1,9 +1,13 @@
+using Logger;
 using Models;
 
 namespace Workflow.Spreadsheet;
 
 public class TemporaryTeamSpreadsheet : SpreadsheetBase
 {
+    public TemporaryTeamSpreadsheet(CustomLogger logger) : base(logger)
+    {
+    }
     public CustomTeams ProcessTemporaryTeams()
     {
         var csvLocation = Path.Combine("assets", "teams.csv");
@@ -13,7 +17,7 @@ public class TemporaryTeamSpreadsheet : SpreadsheetBase
         
         Logger.Info($"Teams parsed.");
 
-        var dict = new CustomTeams();
+        var dict = new CustomTeams(Logger);
         foreach (var item in list)
         {
             if (dict.Team.Keys.Contains(item.Key))

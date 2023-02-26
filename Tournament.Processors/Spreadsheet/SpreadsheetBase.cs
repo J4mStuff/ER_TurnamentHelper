@@ -7,9 +7,9 @@ public class SpreadsheetBase
 {
     protected readonly CustomLogger Logger;
 
-    protected SpreadsheetBase()
+    protected SpreadsheetBase(CustomLogger logger)
     {
-        Logger = new CustomLogger();
+        Logger = logger;
     }
 
     protected IEnumerable<string> ReadCsvLines(string fileName)

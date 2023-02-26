@@ -9,9 +9,9 @@ public class ConfigManager
 {
     private readonly CustomLogger _logger;
 
-    public ConfigManager()
+    public ConfigManager(CustomLogger logger)
     {
-        _logger = new CustomLogger();
+        _logger = logger;
     }
 
     public ConfigurationModel ReadMainConfig()

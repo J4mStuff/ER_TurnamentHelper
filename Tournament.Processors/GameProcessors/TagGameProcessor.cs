@@ -1,3 +1,4 @@
+using Logger;
 using Models;
 using Workflow.Spreadsheet;
 
@@ -7,9 +8,9 @@ public class TagGameProcessor : GameProcessorBase
 {
     private readonly TemporaryTeamSpreadsheet _temporaryTeamSpreadsheet;
 
-    public TagGameProcessor()
+    public TagGameProcessor(CustomLogger logger) : base(logger)
     {
-        _temporaryTeamSpreadsheet = new TemporaryTeamSpreadsheet();
+        _temporaryTeamSpreadsheet = new TemporaryTeamSpreadsheet(logger);
     }
 
     public void GenerateData(IList<List<GameStats>> games,
@@ -19,7 +20,7 @@ public class TagGameProcessor : GameProcessorBase
         Logger.Debug($"Processing {modeConfiguration.Name} mode.");
         var lastGame = StupidClone.PerformStupidClone(games.Last());
         var teams = _temporaryTeamSpreadsheet.ProcessTemporaryTeams();
-        var tagGameProcessor = new TagGameProcessor();
+        var tagGameProcessor = new TagGameProcessor(Logger);
         tagGameProcessor.ProcessTagGame(lastGame, modeConfiguration, teams, pointDeductions, separator);
         tagGameProcessor.GenerateTagSummaryData(games, modeConfiguration, teams, pointDeductions, separator);
     }

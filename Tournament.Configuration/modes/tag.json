@@ -16,7 +16,7 @@
         "TeamNameField": {
           "XPosition": 410,
           "YPosition": 207,
-          "FontSize": 31
+          "FontSize": 30
         },
         "NameField": {
           "XPosition": 410,
@@ -26,19 +26,19 @@
         "KillsField": {
           "XPosition": 790,
           "YPosition": 210,
-          "FontSize": 40
+          "FontSize": 38
         },
         "ScoreField": {
           "XPosition": 888,
           "YPosition": 210,
-          "FontSize": 40
+          "FontSize": 38
         }
       },
       {
         "TeamNameField": {
           "XPosition": 1054,
           "YPosition": 207,
-          "FontSize": 31
+          "FontSize": 30
         },
         "NameField": {
           "XPosition": 1054,
@@ -48,12 +48,12 @@
         "KillsField": {
           "XPosition": 1435,
           "YPosition": 210,
-          "FontSize": 40
+          "FontSize": 38
         },
         "ScoreField": {
           "XPosition": 1533,
           "YPosition": 210,
-          "FontSize": 40
+          "FontSize": 38
         }
       }
     ]
@@ -63,22 +63,22 @@
     "Zone": 2
   },
   "PlacementScoring": {
-    "1": 18,
-    "2": 14,
-    "3": 11,
-    "4": 9,
-    "5": 7,
+    "1": 16,
+    "2": 12,
+    "3": 10,
+    "4": 8,
+    "5": 8,
     "6": 5,
-    "7": 3,
-    "8": 2,
-    "9": 1,
-    "10": 0,
-    "11": 0,
-    "12": 0,
-    "13": 0,
-    "14": 0,
-    "15": 0,
-    "16": 0,
+    "7": 5,
+    "8": 5,
+    "9": 3,
+    "10": 3,
+    "11": 3,
+    "12": 3,
+    "13": 1,
+    "14": 1,
+    "15": 1,
+    "16": 1,
     "17": 0,
     "18": 0
   }

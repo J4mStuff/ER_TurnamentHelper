@@ -10,7 +10,7 @@ public class CustomLogger
     {
         var consoleRestriction = Debugger.IsAttached ? LogEventLevel.Debug : LogEventLevel.Warning;
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
+            .MinimumLevel.Debug()
             .WriteTo.Console(restrictedToMinimumLevel: consoleRestriction)
             .WriteTo.File(Path.Combine("logs", "main.log"), rollingInterval: RollingInterval.Day,
                 restrictedToMinimumLevel: LogEventLevel.Debug)
