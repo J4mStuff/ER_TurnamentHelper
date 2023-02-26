@@ -20,7 +20,7 @@ public class GameProcessorBase
     protected List<GameStats> SortEntries(IEnumerable<GameStats> gameStatsList)
     {
         Logger.Debug("Sorting entries.");
-        return gameStatsList.OrderByDescending(r => r.Score).ThenByDescending(r => r.FieldKills).ToList();
+        return gameStatsList.OrderByDescending(r => r.Score).ThenByDescending(r => r.TotalKillsCount).ThenByDescending(r => r.FieldKills).ToList();
     }
 
     protected GameStats ProcessTeamGroup(IGrouping<string, GameStats> grouping)

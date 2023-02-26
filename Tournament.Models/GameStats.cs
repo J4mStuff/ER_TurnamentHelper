@@ -36,5 +36,6 @@ public class GameStats
     public int FieldKills { get; set; }
     public int SoloKills { get; set; }
     public int TeamKills { get; set; }
+    public int TotalKillsCount => FieldKills + ZoneKills;
     public List<string> PlayerList { get; set; }
 }

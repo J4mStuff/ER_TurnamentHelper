@@ -24,13 +24,13 @@
           "FontSize": 14
         },
         "KillsField": {
-          "XPosition": 790,
-          "YPosition": 210,
+          "XPosition": 775,
+          "YPosition": 215,
           "FontSize": 38
         },
         "ScoreField": {
-          "XPosition": 888,
-          "YPosition": 210,
+          "XPosition": 875,
+          "YPosition": 215,
           "FontSize": 38
         }
       },
@@ -46,13 +46,13 @@
           "FontSize": 14
         },
         "KillsField": {
-          "XPosition": 1435,
-          "YPosition": 210,
+          "XPosition": 1425,
+          "YPosition": 215,
           "FontSize": 38
         },
         "ScoreField": {
-          "XPosition": 1533,
-          "YPosition": 210,
+          "XPosition": 1525,
+          "YPosition": 215,
           "FontSize": 38
         }
       }
